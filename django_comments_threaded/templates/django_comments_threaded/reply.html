@@ -1,0 +1,13 @@
+{% load i18n %}
+<html>
+<head></head>
+<body>
+    <div>
+        <h1>{% trans "Replying" %}</h1>
+    </div>
+    <div>
+        <blockquote>{{ parent_comment|safe }}</blockquote>
+    </div>
+    {% include "django_comments_threaded/form.html" %}
+</body>
+</html>

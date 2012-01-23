@@ -1,0 +1,20 @@
+{% load i18n %}
+<html>
+<head></head>
+<body>
+    <div>
+        <h1>{% trans "Error has been occurred" %}</h1>
+    </div>
+    <div>
+    {% if parent_comment %}
+        <p>{% trans "Comment replying form wasn't filled correctly. Please, correct errors" %}</p>
+        <blockquote>
+            {{ parent_comment|safe }}
+        </blockquote>
+    {% else %}
+        <p>{% trans "Comment creation form wasn't filled correctly. Please, correct errors" %}</p>
+    {% endif %}
+    </div>
+    {% include "django_comments_threaded/form.html" %}
+</body>
+</html>

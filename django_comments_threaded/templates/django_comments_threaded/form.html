@@ -1,0 +1,20 @@
+{% load i18n %}
+<!-- Comment form -->
+<div id="form-placeholder">
+  {% if request.user.is_authenticated %}
+    <form method="post" action="{{ action }}">
+        {% csrf_token %}
+        <div>
+            {% for f in form.hidden_fields %}{{ f }}{% endfor %}
+            {{ form.message }}
+        </div>
+        <div>
+            <input type="submit" name="_preview" value="{% trans "Preview" %}" />
+            <input type="submit" name="_submit" value="{% trans "Create" %}" />
+            <input type="button" name="_cancel" value="{% trans "Cancel" %}" class="js-only hidden" />
+        </div>
+    </form>
+  {% else %}
+    <div>{% trans "Only registered users can write comments" %}</div>
+  {% endif %}
+</div>

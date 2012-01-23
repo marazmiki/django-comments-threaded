@@ -1,0 +1,15 @@
+{% load comments_threaded_tags mptt_tags i18n %}
+ 
+{% get_comments_list for content_object as "comments" %}
+<div id="comments">
+    {% for comment,node in comments|tree_info %}
+        {% if node.new_level %}
+            <ul class="subtree">
+        {% else %}
+            </li>
+        {% endif %}
+        <li class="tree-{{ comment.tree_id }}">
+            {% include "django_comments_threaded/item.html" %}
+            {% for l in node.closed_levels %}</li></ul>{% endfor %}
+    {% endfor %}
+</div>
