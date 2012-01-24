@@ -1,4 +1,4 @@
-include README
+include README.rst
 include AUTHORS
 recursive-include django_comments_threaded/static *
 recursive-include django_comments_threaded/templates *

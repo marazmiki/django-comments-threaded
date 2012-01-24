@@ -21,7 +21,7 @@ setup(
     version = version,
     author_email = 'marazmiki@gmail.com',
     description = 'The threaded comments plugin for django-comments',
-    long_description = open(os.path.join(os.path.dirname(__file__), 'README')).read(),
+    long_description = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read(),
     license = 'MIT license',
     platforms=['OS Independent'],
     classifiers=CLASSIFIERS,
