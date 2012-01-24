@@ -1,5 +1,5 @@
 {% load i18n %}
-<div id="comment-{{ comment.id }}" data-id="{{ comment-id }}" data-tree-id="{{ comment.tree_id }}" data-level="{{ comment.level }}" class="comment level-{{ comment.level }}{% if comment.new %} new{% endif %}{% if comment.user == request.user %} my{% endif %}{% if comment.is_spam %} spam{% endif %}">
+<div id="comment-{{ comment.id }}" data-id="{{ comment.id }}" data-tree-id="{{ comment.tree_id }}" data-level="{{ comment.level }}" class="comment level-{{ comment.level }}{% if comment.new %} new{% endif %}{% if comment.user == request.user %} my{% endif %}{% if comment.is_spam %} spam{% endif %}">
     <div><a href="{{ comment.user.get_absolute_url }}">{{ comment.user }}</a> / {{ comment.date_created }}</div>
     <div>
         {{ comment.message|safe }}
