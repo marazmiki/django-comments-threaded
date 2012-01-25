@@ -12,12 +12,35 @@
         var activeComment = null;
         var lastTimeUpdate = null;
 
-        /**/
+        /**
+         * Add new comments via AJAX
+         */
         $(form).submit(function(){
             $.post(
                 $(this).attr('action'),
                 $(this).serialize(),
                 function(json){
+                    if (json.success) {
+                        /* The replying */
+                        if (json.parent_id) {
+
+                        /* The new thread */
+                        } else {
+                            var newThread = $('<ul />')
+                                .addClass('thread')
+                                .data('id', json.tree_id)
+                                .append(json.comment)
+                            ;
+                            $('#comments').append(newThread);
+
+                        };
+                            json.parent_id;
+                            json.comment;
+                            json.tree_id;
+                            json.id;
+                    } else {
+
+                    };
                     console.log( json );
                 }, 'json'
             );
@@ -28,7 +51,7 @@
          * Counts new comments and write its number into button
          */
         var countNewComments = function() {
-            var 
+            var
                 size = $('div.comment.new').size(),
                 ncb = newCommentButton
             ;
@@ -56,13 +79,13 @@
         });
 
         /**
-         *
+         * Cancel the replying: restore original form action,
+         * move the form back and hide the 'cancel' button
          */
         cancelReplyButton.click(function(e){
             form.attr('action', defaultFormAction);
             cancelReplyButton.hide();
             formPlaceholder.append(form);
-
             return false;
         });
 

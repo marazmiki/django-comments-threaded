@@ -77,6 +77,8 @@ class CreateView(CreateViewBase):
             return json_response({
                 'success': True,
                 'parent_id': getattr(self.parent_comment, 'pk', None),
+                'tree_id': comment.tree_id,
+                'id': comment.pk,
                 'comment': self.render_to_string(request, 'item', {
                     'comment': comment, 
                     'kwargs': kwargs
