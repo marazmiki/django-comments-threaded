@@ -18,3 +18,17 @@ Installation
 * Run `./manage.py collectstatic` to collect JS
 * Add the `url('^comments/', include('django_comments_threaded.urls'))` pattern into your URLconf (`urls.py`)
 
+Usage
+-----
+
+Basic example:
+
+::
+    {# some_template.html #}
+
+    {% load comments_threaded_tags %}
+    {% render_comments_widget for model_object %}
+
+
+In this case `model_object` is the variable taken from template context that refers to 
+instance of model
