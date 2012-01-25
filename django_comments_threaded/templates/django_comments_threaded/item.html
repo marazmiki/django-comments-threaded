@@ -1,8 +1,13 @@
 {% load i18n %}
-<div id="comment-{{ comment.id }}" data-id="{{ comment.id }}" data-tree-id="{{ comment.tree_id }}" data-level="{{ comment.level }}" class="comment level-{{ comment.level }}{% if comment.new %} new{% endif %}{% if comment.user == request.user %} my{% endif %}{% if comment.is_spam %} spam{% endif %}">
-    <div><a href="{{ comment.user.get_absolute_url }}">{{ comment.user }}</a> / {{ comment.date_created }}</div>
+<div itemscope="http://data-vocabulary.org/Review" id="comment-{{ comment.id }}" data-id="{{ comment.id }}" data-tree-id="{{ comment.tree_id }}" data-level="{{ comment.level }}" class="comment level-{{ comment.level }}{% if comment.new %} new{% endif %}{% if comment.user == request.user %} my{% endif %}{% if comment.is_spam %} spam{% endif %}">
     <div>
-        {{ comment.message|safe }}
+        <a itemprop="reviewer" href="{{ comment.user.get_absolute_url }}">{{ comment.user }}</a> /
+        <time timestamp="{{ comment.date_created.isoformat }}">{{ comment.date_created|date:"d.m.Y года, H:i" }}</time>
     </div>
-    <a href="{{ comment.get_reply_url }}" class="reply-link">{% trans "reply" %}</a>
+    <div itemprop="description">{{ comment.message|safe }}</div>
+    {% if request.user.is_authenticated %}
+    <div>
+        <a href="{{ comment.get_reply_url }}" class="reply-link">{% trans "reply" %}</a>
+    </div>
+    {% endif %}
 </div>

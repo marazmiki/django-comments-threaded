@@ -12,6 +12,18 @@
         var activeComment = null;
         var lastTimeUpdate = null;
 
+        /**/
+        $(form).submit(function(){
+            $.post(
+                $(this).attr('action'),
+                $(this).serialize(),
+                function(json){
+                    console.log( json );
+                }, 'json'
+            );
+            return false;
+        })
+
         /**
          * Counts new comments and write its number into button
          */

@@ -8,10 +8,10 @@
             {% for f in form.hidden_fields %}{{ f }}{% endfor %}
             {{ form.message }}
         </div>
-        <div>
-            <input type="submit" name="_preview" value="{% trans "Preview" %}" />
-            <input type="submit" name="_submit" value="{% trans "Create" %}" />
-            <input type="button" name="_cancel" value="{% trans "Cancel" %}" class="js-only hidden" />
+        <div class="buttons">
+            <button class="preview" type="submit" name="_preview">{% trans "Preview" %}</button>
+            <button class="send" type="submit" name="_submit">{% trans "Create" %}</button>
+            <button type="button" name="_cancel" class="js-only cancel hidden">{% trans "Cancel" %}</button>
         </div>
     </form>
   {% else %}

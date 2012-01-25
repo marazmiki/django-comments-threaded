@@ -76,8 +76,8 @@ class CreateView(CreateViewBase):
         if request.is_ajax():
             return json_response({
                 'success': True,
-                'parent_id': getattr(self.parent_comment, 'pk'),
-                'comment': self.render_to_string(request, 'comment_item', {
+                'parent_id': getattr(self.parent_comment, 'pk', None),
+                'comment': self.render_to_string(request, 'item', {
                     'comment': comment, 
                     'kwargs': kwargs
                 }),

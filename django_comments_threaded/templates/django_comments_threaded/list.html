@@ -4,7 +4,7 @@
 <div id="comments">
     {% for comment,node in comments|tree_info %}
         {% if node.new_level %}
-            <ul class="subtree">
+            <ul class="thread" data-id="{{ comment.tree_id }}">
         {% else %}
             </li>
         {% endif %}
