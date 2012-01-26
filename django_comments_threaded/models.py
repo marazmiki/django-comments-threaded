@@ -51,6 +51,9 @@ class Comment(GenericRelationModel):
         null = True,
     )
 
+    def __unicode__(self):
+        return self.message[:30]
+
     @models.permalink
     def get_reply_url(self):
         return 'threaded_comments_reply', [self.pk]

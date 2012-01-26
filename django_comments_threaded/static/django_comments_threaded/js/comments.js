@@ -23,6 +23,10 @@
                     if (json.success) {
                         /* The replying */
                         if (json.parent_id) {
+                            /* First reply */
+                            $('#comment-' + json.tree_id).append( json.comment );
+
+                            /* Thread not empty */
 
                         /* The new thread */
                         } else {

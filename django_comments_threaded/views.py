@@ -13,7 +13,34 @@ from django_comments_threaded.utils import json_response
 from django_comments_threaded.models import LastReaded
 import datetime
 
-class CreateView(CreateViewBase):
+
+class AjaxMixin(object):
+    def render_to_string(self, request, template, context):
+        """
+        Renders the template and returns generated HTML code as string
+        """
+        return loader.render_to_string(
+            self.get_templates_list(request, template), context,
+            context_instance=RequestContext(request)
+        )
+
+    def get_templates_list(self, request, template):
+        """
+        Generates template search list that will be rendered
+        """
+        model = self.get_content_object(request)
+        data = {
+            'master'      : 'django_comments_threaded', # @TODO: make constant with this value to avoid a code duplicates?
+            'template'    : template,
+            'module_name' : model._meta.module_name,
+            'app_label'   : model._meta.app_label,
+            }
+        return [
+            '{master}/{app_label}/{module_name}/{template}.html'.format(**data),
+            '{master}/{app_label}/{template}.html'.format(**data),
+            '{master}/{template}.html'.format(**data),
+            ]
+class CreateView(CreateViewBase, AjaxMixin):
     """
     """
     parent_comment = None
@@ -92,7 +119,7 @@ class CreateView(CreateViewBase):
         """
         if request.is_ajax():
             return json_response({
-                'errors': dict([(k, unicode(v)) for k, v in form.errors]),
+                'errors': dict([(k, unicode(v)) for k,v in form.errors.items()]),
                 'success': False,
                 'kwargs': kwargs
             })
@@ -127,33 +154,8 @@ class CreateView(CreateViewBase):
         return render(request, self.get_templates_list(request, template), 
                       context)
 
-    def render_to_string(self, request, template, context):
-        """
-        Renders the template and returns generated HTML code as string
-        """
-        return loader.render_to_string(
-            self.get_templates_list(request, template), context,
-                                    context_instance=RequestContext(request)
-        )
 
-    def get_templates_list(self, request, template):
-        """
-        Generates template search list that will be rendered
-        """
-        model = self.get_content_object(request)
-        data = {
-            'master'      : 'django_comments_threaded', # @TODO: make constant with this value to avoid a code duplicates?
-            'template'    : template,
-            'module_name' : model._meta.module_name,
-            'app_label'   : model._meta.app_label,
-        }
-        return [
-            '{master}/{app_label}/{module_name}/{template}.html'.format(**data),
-            '{master}/{app_label}/{template}.html'.format(**data),
-            '{master}/{template}.html'.format(**data),
-        ]
-
-class UpdateCommentsView(CreateViewBase):
+class UpdateCommentsView(CreateViewBase, AjaxMixin):
     def get_content_object(self, request, kwargs={}):
         """
         Returns a model instance that will be a 'content object' for
@@ -200,6 +202,7 @@ class UpdateCommentsView(CreateViewBase):
             'new_comments': [{
                 'html': self.render_to_string(request, 'item', {'comment':c}),
                 'parent': c.parent_comment_id,
+                'id': c.pk,
                 'tree_id': c.tree_id,
             } for c in queryset],
         })
