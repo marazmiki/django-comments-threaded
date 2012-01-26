@@ -20,34 +20,44 @@
                 $(this).attr('action'),
                 $(this).serialize(),
                 function(json){
+                    var newThread = function(){
+                        return $('<ul />')
+                            .addClass('thread')
+                            .data('id', json.tree_id)
+                            .attr('data-id', json.tree_id)
+                        ;
+                    };
+                    var newReply = function(){
+                        return $('<li />')
+                            .addClass('tree-' + json.tree_id)
+                            .append(json.comment)
+                        ;
+                    };
                     if (json.success) {
                         /* The replying */
                         if (json.parent_id) {
-                            /* First reply */
-                            $('#comment-' + json.tree_id).append( json.comment );
 
-                            /* Thread not empty */
+                            /* Find the parent node */
+                            var parentNode = $('#comment-' + json.parent_id).closest('LI');
+
+                            if ($('ul.thread', parentNode).size() == 0 ) {
+                                parentNode.append( newThread() );
+                            };
+
+                            $('ul.thread:first', parentNode).append( newReply() );
 
                         /* The new thread */
                         } else {
-                            var newThread = $('<ul />')
-                                .addClass('thread')
-                                .data('id', json.tree_id)
-                                .append(json.comment)
-                            ;
-                            $('#comments').append(newThread);
+                            $('#comments').append(newThread().append( newReply()));
 
                         };
                             json.parent_id;
                             json.comment;
                             json.tree_id;
                             json.id;
-                    } else {
-
                     };
                     console.log( json );
-                }, 'json'
-            );
+                }, 'json');
             return false;
         })
 
