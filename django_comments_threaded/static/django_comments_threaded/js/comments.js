@@ -3,7 +3,7 @@
         var panel = $('#comments-panel');
         var form  = $('#comments-widget').find('form');
         var formPlaceholder = $('#form-placeholder');
-        var cancelReplyButton = form.find('input[name="_cancel"]');
+        var cancelReplyButton = form.find('button[name="_cancel"]');
         var defaultFormAction = form.attr('action');
         var messageInput = form.find('textarea');
 
@@ -16,6 +16,8 @@
          * Add new comments via AJAX
          */
         $(form).submit(function(){
+            $('div.buttons button', this).attr('disabled', 'disabled');
+            $(this).addClass('processing');
             $.post(
                 $(this).attr('action'),
                 $(this).serialize(),
@@ -51,13 +53,18 @@
                             $('#comments').append(newThread().append( newReply()));
 
                         };
-                            json.parent_id;
-                            json.comment;
-                            json.tree_id;
-                            json.id;
+                        /* Triggers the click on "Cancel" button  */
+                        cancelReplyButton.click();
+                        messageInput.val('');
                     };
-                    console.log( json );
-                }, 'json');
+                }, 'json')
+            .error(function(){
+            })
+            .complete(function(){
+                $(form).removeClass('processing');
+                $('div.buttons button', form).removeAttr('disabled');
+            });
+
             return false;
         })
 
