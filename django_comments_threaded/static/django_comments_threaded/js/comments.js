@@ -17,6 +17,7 @@
          */
         $(form).submit(function(){
             $('div.buttons button', this).attr('disabled', 'disabled');
+            console.log($('div.buttons button', this) );
             $(this).addClass('processing');
             $.post(
                 $(this).attr('action'),
