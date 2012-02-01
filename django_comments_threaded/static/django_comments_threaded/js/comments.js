@@ -17,7 +17,6 @@
          */
         $(form).submit(function(){
             $('div.buttons button', this).attr('disabled', 'disabled');
-            console.log($('div.buttons button', this) );
             $(this).addClass('processing');
             $.post(
                 $(this).attr('action'),
@@ -56,6 +55,7 @@
                         };
                         /* Triggers the click on "Cancel" button  */
                         cancelReplyButton.click();
+                        panel.find('.btn-refresh').click();
                         messageInput.val('');
                     };
                 }, 'json')
@@ -118,6 +118,7 @@
             panel.addClass('in-progress');
             $.get($(this).attr('href'), {},
                 function(json){
+                    $('div.comment').removeClass('active');
                     lastTimeUpdate = json.last_readed,
                     newCommentButton.text(json.new_comments.length);
                     panel.removeClass('in-progress');
@@ -130,19 +131,15 @@
          * Navigate to next new comment and marks it as readed
          */
         newCommentButton.click(function(){
-            var current = $('div.comment.new:first'); 
-            var currId  = current.attr('id');
-
-            if (activeComment) {
-                activeComment.removeClass('new');
-                activeComment.removeClass('active');
+            $('li div.comment').removeClass('active');
+            var current = $('li div.comment.new:eq(0)');
+            if (current.size()) {
+                location.hash = current.attr('id');
             };
 
-            if (currId) {
-                current.addClass('active');
-                activeComment = current;
-                location.hash = currId;
-            };
+            // console.log( current );
+            current.removeClass('new');
+            current.addClass('active');
             countNewComments();
             return false;
         });

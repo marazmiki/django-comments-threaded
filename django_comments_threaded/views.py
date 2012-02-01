@@ -40,6 +40,7 @@ class AjaxMixin(object):
             '{master}/{app_label}/{template}.html'.format(**data),
             '{master}/{template}.html'.format(**data),
             ]
+
 class CreateView(CreateViewBase, AjaxMixin):
     """
     """
@@ -192,7 +193,7 @@ class UpdateCommentsView(CreateViewBase, AjaxMixin):
             readed.date_readed = datetime.datetime.now()
             readed.save()
 
-        # Gets comments that was written after current user last time  
+        # Gets the comments that was written after current user last time
         # has read comments to given object
         queryset = self.plugin.get_queryset(request, object)
         queryset = queryset.filter(date_created__gt=last_readed)
