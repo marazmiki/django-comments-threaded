@@ -28,7 +28,8 @@ setup(
     install_requires=[
         'Django>=1.3',
         'django-mptt==0.4.2',
-        'django-generic-helpers'
+        'django-generic-helpers',
+        'django-comments',
         ],
     packages=find_packages(exclude=['test_project', 'test_project.*']),
     include_package_data=True,
