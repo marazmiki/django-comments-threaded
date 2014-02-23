@@ -11,6 +11,8 @@ class Comment(GenericRelationModel):
     """
     Habrahabr like threaded comment model
     """
+    ct_related_name = 'djc_%(class)s_set'
+
     message = models.TextField(
         verbose_name = _('Message'),
         default = '',
