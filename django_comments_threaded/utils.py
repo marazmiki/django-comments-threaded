@@ -1,18 +1,19 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 from django.http import HttpResponse
-from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.contrib.contenttypes.models import ContentType
+import json
 
-def json_response(data):
+
+def json_response(data, indent=None, ensure_ascii=True):
     """
     Creates HttpResponse object with JSON content
     """
-    return HttpResponse(
-        content  = simplejson.dumps(data),
-        mimetype = 'application/x-json'
-    )
+    return HttpResponse(content=json.dumps(data, indent=indent,
+                                           ensure_ascii=ensure_ascii),
+                        content_type='application/x-json')
+
 
 def get_update_url(content_object):
     """

@@ -6,6 +6,7 @@ from django_comments_threaded.models import Comment
 from django_comments_threaded.forms import CommentForm, CommentReplyForm
 from django_comments_threaded.views import CreateView, UpdateCommentsView
 
+
 class ThreadedCommentPlugin(BasePlugin):
     codename = 'threaded'
     content_object_field = 'content_object'
