@@ -25,8 +25,8 @@ class ThreadedCommentPlugin(BasePlugin):
         return CommentReplyForm if 'pk' in kwargs else CommentForm
 
     def get_urlpatterns(self):
-        return patterns('',
+        return [
             url('^create/$',            CreateView.as_view(plugin=self), name='threaded_comments_create'), 
             url('^reply/(?P<pk>\d+)/$', CreateView.as_view(plugin=self), name='threaded_comments_reply'),
             url('^update/(?P<content_type>\d+)/(?P<object_pk>\d+)/$', UpdateCommentsView.as_view(plugin=self), name='threaded_comments_update'),
-        )
+        ]

@@ -4,13 +4,15 @@ from django.db import models
 from django.conf import settings
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils import six
 from generic_helpers.models import GenericRelationModel
+from mptt.models import MPTTModel
 import mptt.fields
 
 
 @python_2_unicode_compatible
-class AbstractCommentBase(GenericRelationModel):
+class AbstractCommentBase(MPTTModel, GenericRelationModel):
     message = models.TextField(_('message'), default='')
     date_created = models.DateTimeField(_('Created'),
                                        default=now,
@@ -19,6 +21,8 @@ class AbstractCommentBase(GenericRelationModel):
                                         verbose_name=_('parent'),
                                         blank=True,
                                         null=True)
+    def __str__(self):
+        return self.message[:30]
 
     @models.permalink
     def get_reply_url(self):
@@ -31,7 +35,6 @@ class AbstractCommentBase(GenericRelationModel):
         abstract = True
 
 
-@python_2_unicode_compatible
 class AbstractComment(AbstractCommentBase):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              related_name='comments',
@@ -54,14 +57,10 @@ class AbstractComment(AbstractCommentBase):
                                          blank=True,
                                          null=True)
 
-    def __str__(self):
-        return self.message[:30]
-
     class Meta(object):
          abstract = True
 
 
-@python_2_unicode_compatible
 class Comment(AbstractComment):
     class Meta(object):
         ordering = ['tree_id', 'lft']
@@ -84,7 +83,7 @@ class LastRead(GenericRelationModel):
     def __str__(self):
         what = self.content_object
         return six.text_type(_('{user} has read {what}'.format(user=self.user,
-                                                               what=what))
+                                                               what=what)))
 
     class Meta(object):
         unique_together = [('content_type', 'object_pk', 'user')]

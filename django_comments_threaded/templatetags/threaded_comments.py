@@ -14,24 +14,6 @@ register = template.Library()
 
 
 class InsertThreadedComments(InclusionTag):
-    """
-    Template tag usage:
-
-        {% load threaded_comments %}
-
-    Default settings:
-
-        {% insert_comments for content_object %}
-
-    Explisitly allow anonymous comments
-
-        {% insert_comments for content_object with allow_anonymous=True %}
-
-    Custom template
-
-        {% insert_comments for content_object with template_name='my_widget.html' %}
-
-    """
     name = 'insert_comments'
     template = 'django_comments_threaded/templatetags/insert_comments.html'
 
@@ -39,7 +21,7 @@ class InsertThreadedComments(InclusionTag):
         'for',
         Argument('name', required=False, default='world'),
         'with',
-        KeywordArgument('allow_anonymous', required=False, default=True)
+        KeywordArgument('anonymous', required=False, default=True),
         KeywordArgument('template_name', required=False, default=None)
 
     )
@@ -47,7 +29,8 @@ class InsertThreadedComments(InclusionTag):
     def get_template(self, context, **kwargs):
         return kwargs.get('template_name') or self.template
 
-    def get_context(self, context):
+    def get_context(self, context, **kwargs):
+        print('kwargs =', kwargs)
         return {'varname': 'dummy'}
 
 #    def render_tag(self, context, name, varname):
@@ -57,5 +40,6 @@ class InsertThreadedComments(InclusionTag):
 #            return ''
 #        return output
 #
+
 
 register.tag(InsertThreadedComments)
