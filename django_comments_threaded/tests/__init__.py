@@ -7,7 +7,7 @@ from __future__ import division
 from django import test
 from django.db import models
 from django.conf.urls import url, include
-#from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model
 from django.shortcuts import render
 
 
