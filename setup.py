@@ -5,36 +5,46 @@ from setuptools import setup, find_packages
 import os
 
 
-version = __import__('django_comments_threaded').get_version()
 
 
+def read_file(filename):
+    try:
+        with open(os.path.join(CWD, filename)) as fp:
+            return fp.read()
+    except (OSError, IOError):
+        return ''
+
+def get_long_description():
+    return "{README}\n\n{CHANGELOG}".format(
+        README=read_file('README.rst'),
+        CHANGELOG=read_file('CHANGELOG.rst')
+    )
+ 
+
+CWD = os.path.dirname(__file__)
+VERSION = __import__('django_comments_threaded').get_version()
 REQUIREMENTS = [
     'Django>=1.5',
     'django-mptt',
     'django-generic-helpers',
     'django-classy-tags',
 ]
-
-
 CLASSIFIERS = [
-    'Development Status :: 4 - Beta',
-    'Environment :: Web Environment',
-    'Intended Audience :: Developers',
-    'License :: OSI Approved :: BSD License',
     'Operating System :: OS Independent',
-    'Programming Language :: Python',
+    'Environment :: Web Environment',
+    'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: 3.3',
+    'Programming Language :: Python :: 3.4',
     'Framework :: Django'
 ]
 
-
 setup(name='django-comments-threaded',
       author='Mikhail Porokhovnichenko',
-      version=version,
+      version=VERSION,
       author_email='marazmiki@gmail.com',
-      description='The threaded comments plugin for django-comments',
-      long_description=open(os.path.join(os.path.dirname(__file__), 'README.rst')).read(),
+      description='An application that implements threaded comments',
+      long_description=get_long_description(),
       license='MIT license',
-      platforms=['OS Independent'],
       classifiers=CLASSIFIERS,
       install_requires=REQUIREMENTS,
       packages=find_packages(exclude=['test_project', 'test_project.*']),

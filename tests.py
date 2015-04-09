@@ -14,13 +14,13 @@ app_name = 'django_comments_threaded'
 
 
 settings.configure(
-    DEBUG=True,
-    ROOT_URLCONF='%s.tests.urls' % app_name,
+    ROOT_URLCONF='django_comments_threaded.tests',
     INSTALLED_APPS=(
         'django.contrib.auth',
         'django.contrib.contenttypes',
         'django.contrib.sessions',
-        app_name,
+        'django_comments_threaded',
+        'mptt',
     ),
     DATABASES={
         'default': {
@@ -32,15 +32,16 @@ settings.configure(
 
 def main():
     from django.test.utils import get_runner
+    import django
+
+    if hasattr(django, 'setup'):
+        django.setup()
 
     find_pattern = app_name
 
-    if get_version() >= '1.6':
-        find_pattern += '.tests'
-
-    test_runner = get_runner(settings)(verbosity=2, interactive=True)
+    test_runner = get_runner(settings)(verbosity=3, interactive=True,
+                                       failfast=True)
     failed = test_runner.run_tests([find_pattern])
-
     sys.exit(failed)
 
 

@@ -1,6 +1,8 @@
+.tox/
 build/
 dist/
 *.pyc
 *.swp
 *.egg-info
 *.egg
+readme.html

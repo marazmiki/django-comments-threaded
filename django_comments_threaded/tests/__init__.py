@@ -21,7 +21,7 @@ def create_user(username=None, password=None, email=None,
     user.raw_password = password
     return user
 
-
+"""
 class Post(models.Model):
     pass
 
@@ -37,7 +37,7 @@ class AnonymousTest(test.TestCase):
     def test_1(self):
         pass
 
-
+"""
 def index(request):
     cntx = {
     }
