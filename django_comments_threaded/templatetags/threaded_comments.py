@@ -5,7 +5,8 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 from django import template
-from classytags.core import Tag, Options
+# from classytags.core import Tag, Options
+from classytags.core import Options
 from classytags.arguments import Argument, KeywordArgument
 from classytags.helpers import InclusionTag
 

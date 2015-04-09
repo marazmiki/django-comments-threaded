@@ -5,8 +5,6 @@ from setuptools import setup, find_packages
 import os
 
 
-
-
 def read_file(filename):
     try:
         with open(os.path.join(CWD, filename)) as fp:
@@ -14,17 +12,18 @@ def read_file(filename):
     except (OSError, IOError):
         return ''
 
+
 def get_long_description():
     return "{README}\n\n{CHANGELOG}".format(
         README=read_file('README.rst'),
         CHANGELOG=read_file('CHANGELOG.rst')
     )
- 
+
 
 CWD = os.path.dirname(__file__)
 VERSION = __import__('django_comments_threaded').get_version()
 REQUIREMENTS = [
-    'Django>=1.5',
+    'Django>=1.6',
     'django-mptt',
     'django-generic-helpers',
     'django-classy-tags',

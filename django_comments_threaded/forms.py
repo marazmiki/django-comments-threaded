@@ -15,7 +15,8 @@ class LoadNewCommentsForm(forms.Form):
                                           widget=forms.HiddenInput())
 
     def get_content_object(self):
-        assert self.is_valid(), "This method can be called only for valid models"
+        assert self.is_valid(), "This method can be called " \
+                                "only for valid models"
         content_type = self.cleaned_data['content_type']
         object_pk = self.cleaned_data['object_pk']
         return content_type.get_object_for_this_type(pk=object_pk)

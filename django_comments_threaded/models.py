@@ -15,12 +15,13 @@ import mptt.fields
 class AbstractCommentBase(MPTTModel, GenericRelationModel):
     message = models.TextField(_('message'), default='')
     date_created = models.DateTimeField(_('Created'),
-                                       default=now,
-                                       editable=False)
+                                        default=now,
+                                        editable=False)
     parent = mptt.fields.TreeForeignKey('self', related_name='childs',
                                         verbose_name=_('parent'),
                                         blank=True,
                                         null=True)
+
     def __str__(self):
         return self.message[:30]
 
@@ -54,11 +55,11 @@ class AbstractComment(AbstractCommentBase):
                                         blank=True,
                                         null=True)
     forwarded_for = models.IPAddressField(_('Forwarded for'),
-                                         blank=True,
-                                         null=True)
+                                          blank=True,
+                                          null=True)
 
     class Meta(object):
-         abstract = True
+        abstract = True
 
 
 class Comment(AbstractComment):
@@ -73,7 +74,7 @@ class Comment(AbstractComment):
 class LastRead(GenericRelationModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              related_name='last_read',
-                             verbose_name = _('user'))
+                             verbose_name=_('user'))
     date_created = models.DateTimeField(_('created'),
                                         editable=False,
                                         default=now)

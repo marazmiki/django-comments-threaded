@@ -6,6 +6,7 @@ CHANGELOG
 -----
 
 * Since this version `django-comments-threaded` is standalone application, not `django-comments` example plugin
+* Dropped DJango==1.5x support
 * CI integration with `Travis CI <https://travis-ci.org>`_
 * Improved pep8 and test coverage
 * Supports both 2.x and 3.x python version

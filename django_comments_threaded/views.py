@@ -4,17 +4,12 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
-from django.http import Http404
-from django.core.exceptions import PermissionDenied
-from django.contrib.contenttypes.models import ContentType
-from django.shortcuts import redirect, get_object_or_404, render
+from django.http import JsonResponse
+from django.views.generic.base import FormView
 from django.utils.timezone import now
 from django.template import loader, RequestContext
-from django.views.decorators.csrf import csrf_exempt
-from django_comments.views import CreateView as CreateViewBase
-from django_comments_threaded.models import LastRead
 from django_comments_threaded.forms import LoadNewCommentsForm
-from django_comments_threaded.utils import get_last_read, now
+from django_comments_threaded.utils import get_last_read
 
 
 class UpdateCommentsView(FormView):
@@ -30,7 +25,7 @@ class UpdateCommentsView(FormView):
             user = self.request.user
 
             last_read = get_last_read(content_object=content_object, user=user)
-            queryset = self.plugin.get_queryset(request, content_object)
+            queryset = self.plugin.get_queryset(self.request, content_object)
             queryset = queryset.filter(date_created__gt=last_read)
 
         return JsonResponse({
@@ -55,3 +50,4 @@ class UpdateCommentsView(FormView):
             self.comment_template_name,
             context_data,
             context_instance=RequestContext(self.request)
+            )
