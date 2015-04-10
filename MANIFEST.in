@@ -1,4 +1,12 @@
+include .coveragerc
+include .gitignore
+include .travis.yml
+include AUTHORS.rst
+include CHANGELOG.rst
+include MANIFEST.in
+include Makefile
 include README.rst
-include AUTHORS
+include README.rst
 recursive-include django_comments_threaded/static *
 recursive-include django_comments_threaded/templates *
+recursive-exclude example_project/ *

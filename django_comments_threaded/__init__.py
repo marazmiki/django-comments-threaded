@@ -12,7 +12,7 @@ default_app_config = 'django_comments_threaded.apps.CommentsThreadedConfig'
 
 def get_version():
     try:
-        unicode
+        text_type = unicode
     except NameError:
-        unicode = str
-    return '.'.join(map(unicode, VERSION))
+        text_type = str
+    return '.'.join(map(text_type, VERSION))

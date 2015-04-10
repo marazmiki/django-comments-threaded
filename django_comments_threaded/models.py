@@ -39,7 +39,7 @@ class AbstractCommentBase(MPTTModel, GenericRelationModel):
 class AbstractComment(AbstractCommentBase):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              related_name='comments',
-                             verbose_name=_('user'))
+                             verbose_name=_('user'), null=True)
     user_name = models.CharField(_('user name'), max_length=255,
                                  default='')
     user_email = models.EmailField(_('e-mail'), max_length=255,

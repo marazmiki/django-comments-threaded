@@ -9,7 +9,6 @@ import os
 
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
-app_name = 'django_comments_threaded'
 
 
 settings.configure(
@@ -18,8 +17,14 @@ settings.configure(
         'django.contrib.auth',
         'django.contrib.contenttypes',
         'django.contrib.sessions',
-        'django_comments_threaded',
         'mptt',
+        'django_comments_threaded',
+        'django_comments_threaded.api',
+    ),
+    MIDDLEWARE_CLASSES=(
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
     ),
     DATABASES={
         'default': {
@@ -36,11 +41,16 @@ def main():
     if hasattr(django, 'setup'):
         django.setup()
 
-    find_pattern = app_name
+    test_runner = get_runner(settings)(
+        verbosity=3,
+        interactive=True,
+        failfast=True
+    )
 
-    test_runner = get_runner(settings)(verbosity=3, interactive=True,
-                                       failfast=True)
-    failed = test_runner.run_tests([find_pattern])
+    failed = test_runner.run_tests([
+        'django_comments_threaded.tests',
+        'django_comments_threaded.api.tests',
+    ])
     sys.exit(failed)
 
 

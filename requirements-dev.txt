@@ -1,4 +1,4 @@
-pygment
+pygments
 sphinx
 sphinx-autobuild
 coverage

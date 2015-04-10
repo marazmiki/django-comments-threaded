@@ -1,7 +1,4 @@
-.. django-comments-threaded documentation master file, created by
-   sphinx-quickstart on Fri Apr 10 10:01:18 2015.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. django-comments-threaded documentation master file
 
 django-comments-threaded
 ========================
@@ -13,6 +10,8 @@ Contents:
 
    install
    usage
+   advanced
+   changelog
 
 
 Indices and tables

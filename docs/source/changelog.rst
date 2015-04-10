@@ -11,7 +11,6 @@ CHANGELOG
 * Added `Travis CI <https://travis-ci.org>`_ support
 * Added `tox <https://testrun.org/tox/latest/>`_ support
 * Added view to fetch unread comments (e.g. "update comments" feature)
-* Added RESTful API
 * Time of last read comment now don't save automatically in favor of client side tracking
 * Dropped Django 1.6x and older versions support
 * Increase test coverage
