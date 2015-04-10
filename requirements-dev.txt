@@ -1,0 +1,10 @@
+pygment
+sphinx
+sphinx-autobuild
+coverage
+django-generic-helpers
+django-mptt
+docutils
+flake8
+tox
+wheel
