@@ -88,3 +88,4 @@ class LastRead(GenericRelationModel):
 
     class Meta(object):
         unique_together = [('content_type', 'object_pk', 'user')]
+        app_label = 'django_comments_threaded'

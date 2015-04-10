@@ -12,6 +12,22 @@ from django_comments_threaded.forms import LoadNewCommentsForm
 from django_comments_threaded.utils import get_last_read
 
 
+class CreateCommentView(object):
+    pass
+
+
+class ReplyCommentView(object):
+    pass
+
+
+class LastReadView(object):
+    pass
+
+
+class MarkReadView(object):
+    pass
+
+
 class UpdateCommentsView(FormView):
     form_class = LoadNewCommentsForm
     comment_template_name = 'django_comments_threaded/item.html'
