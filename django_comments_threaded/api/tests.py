@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
+from mptt.templatetags.mptt_tags import cache_tree_children
 from django.core.urlresolvers import reverse
 from generic_helpers.managers import ct
 from rest_framework import test
@@ -18,9 +19,13 @@ class TestListView(test.APITestCase):
         self.client = test.APIClient()
 
         for i in [self.object_1, self.object_2]:
+            parent = None
             for j in range(1, 11):
-                Comment.objects.create(content_object=i,
-                                       message='Comment {}'.format(j))
+                parent = Comment.objects.create(content_object=i,
+                                       message='Comment {}'.format(j),
+                                       parent=parent)
+                if j and not j % 6:
+                    parent = None
 
     def get_absolute_url(self, content_object):
         return reverse('api_list_flat', kwargs={
