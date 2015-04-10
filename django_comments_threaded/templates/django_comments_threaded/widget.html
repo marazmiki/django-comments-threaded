@@ -1,18 +1,21 @@
-{% load comments_threaded_tags i18n %}
+{% load staticfiles %}
+{% load comments_threaded_tags %}
+{% load i18n %}
+
 <div id="comments-widget">
-    {% render_comments_list for content_object %}
+  {% render_comments_list for content_object %}
+  {% render_comments_form for content_object %}
 
-    {% render_comments_form for content_object %}
-
-    {% if request.user.is_authenticated %}
+  {% if request.user.is_authenticated %}
     <div id="comments-panel" class="js-only">
-        <a href="{% render_update_comments_url for content_object %}" class="btn-refresh" title="{% trans "Refresh comments" %}">{% trans "Refresh" %}</a>
-        <div class="new-messages">
-            <div class="divider"></div>
-            <a class="count" href="#" title="{% trans "Go to next unreaded comments" %}">&nbsp;</a>
-        </div>
+      <a href="{% render_update_comments_url for content_object %}" class="btn-refresh"
+         title="{% trans "Refresh comments" %}">{% trans "Refresh" %}</a>
+      <div class="new-messages">
+        <div class="divider"></div>
+        <a class="count" href="#" title="{% trans "Go to next unreaded comments" %}">&nbsp;</a>
+      </div>
     </div>
-    {% endif %}
+  {% endif %}
 </div>
-<script type="text/javascript" src="{{ STATIC_URL }}django_comments_threaded/js/jquery-1.7.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}django_comments_threaded/js/comments.js"></script>
+<script type="text/javascript" src="{% static 'django_comments_threaded/js/jquery-1.7.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'django_comments_threaded/js/comments.js' %}"></script>
