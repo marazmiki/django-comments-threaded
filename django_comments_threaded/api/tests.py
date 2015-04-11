@@ -7,7 +7,7 @@ from __future__ import division
 from django.core.urlresolvers import reverse
 from generic_helpers.managers import ct
 from rest_framework import test
-from django_comments_threaded.tests import Post, Image
+from django_comments_threaded.tests import Post
 from django_comments_threaded.models import Comment
 
 
@@ -54,3 +54,8 @@ class TestTreeView(BaseTest):
         from django.core.serializers.json import DjangoJSONEncoder
 
         print(json.dumps(resp.data, indent=2, cls=DjangoJSONEncoder))
+
+
+class TestCreateView(test.TestCase):
+    def setUp(self):
+        pass
