@@ -8,4 +8,3 @@ from __future__ import division
 
 default_app_config = ('django_comments_threaded.api.apps.'
                       'CommentsThreadedAPIConfig')
-
