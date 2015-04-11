@@ -56,6 +56,6 @@ class TestTreeView(BaseTest):
         print(json.dumps(resp.data, indent=2, cls=DjangoJSONEncoder))
 
 
-class TestCreateView(test.TestCase):
+class TestCreateView(test.APITestCase):
     def setUp(self):
         pass
