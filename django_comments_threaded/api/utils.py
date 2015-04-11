@@ -7,10 +7,10 @@ from __future__ import division
 from mptt.templatetags.mptt_tags import cache_tree_children
 
 
-def recursive_node_to_dict(node, children_key='replies'):
+def expand_node(node, children_key='replies'):
     result = {k: v for k, v in node.__dict__.items() if not k.startswith('_')}
 
-    children = [recursive_node_to_dict(c) for c in node.get_children()]
+    children = [expand_node(c) for c in node.get_children()]
 
     if children:
         result[children_key] = children
@@ -18,4 +18,4 @@ def recursive_node_to_dict(node, children_key='replies'):
 
 
 def to_tree(queryset):
-    return [recursive_node_to_dict(n) for n in cache_tree_children(queryset)]
+    return [expand_node(n) for n in cache_tree_children(queryset)]
