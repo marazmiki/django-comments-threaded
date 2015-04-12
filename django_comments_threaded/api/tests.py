@@ -53,9 +53,23 @@ class TestTreeView(BaseTest):
         import json
         from django.core.serializers.json import DjangoJSONEncoder
 
-        print(json.dumps(resp.data, indent=2, cls=DjangoJSONEncoder))
+       #print(json.dumps(resp.data, indent=2, cls=DjangoJSONEncoder))
 
 
 class TestCreateView(test.APITestCase):
+    view_name = 'api_create'
+
     def setUp(self):
-        pass
+        self.content_object = Post.objects.create()
+        self.client = test.APIClient()
+
+    def get_absolute_url(self, content_object=None):
+        content_object = content_object or self.content_object
+        return reverse(self.view_name, kwargs={
+            'content_type': ct(content_object).pk,
+            'object_pk': content_object.pk
+        })
+
+    def test_(self):
+        print(self.client.post(self.get_absolute_url()))
+        

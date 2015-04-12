@@ -12,6 +12,8 @@ RE_CONTENT_OBJECT = r'(?P<content_type>\d+)/(?P<object_pk>\d+)/'
 
 
 urlpatterns = [
+    url(RE_CONTENT_OBJECT + '$', views.CreateView.as_view(),
+        name='api_create'),
     url(RE_CONTENT_OBJECT + 'flat/$', views.ListView.as_view(),
         name='api_list_flat'),
     url(RE_CONTENT_OBJECT + 'tree/$', views.TreeView.as_view(),

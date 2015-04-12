@@ -11,18 +11,23 @@ from django_comments_threaded.api.serializers import CommentSerializer
 from django_comments_threaded.api.utils import to_tree
 
 
-class CreateView(CreateAPIView):
+class CommentMixin(object):
     serializer_class = CommentSerializer
 
+    def content_object_filter(self):
+        return {
+            'content_type_id': self.kwargs['content_type'],
+            'object_pk': self.kwargs['object_pk'],
+        }
 
-class ListView(ListAPIView):
-    serializer_class = CommentSerializer
 
+class CreateView(CommentMixin, CreateAPIView):
+    pass
+
+
+class ListView(CommentMixin, ListAPIView):
     def get_queryset(self):
-        return Comment.objects.filter(
-            content_type=self.kwargs['content_type'],
-            object_pk=self.kwargs['object_pk']
-        )
+        return Comment.objects.filter(**self.content_object_filter())
 
 
 class TreeView(ListView):
