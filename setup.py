@@ -26,7 +26,6 @@ REQUIREMENTS = [
     'Django>=1.6',
     'django-mptt',
     'django-generic-helpers',
-    'django-classy-tags',
 ]
 CLASSIFIERS = [
     'Operating System :: OS Independent',
