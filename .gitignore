@@ -6,3 +6,5 @@ dist/
 *.egg-info
 *.egg
 readme.html
+.coverage
+htmlcov/
