@@ -9,4 +9,10 @@
 {% get_comment_api_urls object as api_urls %}
 
 <pre>{{ api_urls }}</pre>
+<script>window.ctf = {
+  create: "{{ api_urls.create }}",
+  flat: "{{ api_urls.list }}",
+  tree: "{{ api_urls.tree }}"
+}
+</script>
 {% endblock posts_content %}
