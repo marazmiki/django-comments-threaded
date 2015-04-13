@@ -1,0 +1,11 @@
+{% extends 'posts/base.html' %}
+{% block posts_title %}{% endblock posts_title %}
+{% block posts_content %}
+  <div class="container">
+    <h1>Please choose</h1>
+    <ul>
+      <li><a href="{% url 'post_list' %}">Posts</a></li>
+      <li><a href="{% url 'link_list' %}">Links</a></li>
+    </ul>
+  </div>
+{% endblock posts_content %}
