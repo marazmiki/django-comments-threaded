@@ -8,3 +8,4 @@ dist/
 readme.html
 .coverage
 htmlcov/
+db.sqlite3
