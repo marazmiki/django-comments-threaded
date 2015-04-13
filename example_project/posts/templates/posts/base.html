@@ -3,10 +3,10 @@
   <head>
     <title>{% block posts_title %}{% endblock posts_title %}</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">{% block css %}{% endblock css %}
   </head>
   <body>
     {% block posts_content %}{% endblock posts_content %}
+    {% block js %}{% endblock js %}
   </body>
 </html>

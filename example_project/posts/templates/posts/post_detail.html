@@ -1,7 +1,12 @@
 {% extends 'posts/base.html' %}
+{% load comments_threaded_tags %}
+
 {% block posts_title %}{% endblock posts_title %}
 {% block posts_content %}
   <div class="container">
     <h1>{{ object }}</h1>
   </div>
+{% get_comment_api_urls object as api_urls %}
+
+<pre>{{ api_urls }}</pre>
 {% endblock posts_content %}

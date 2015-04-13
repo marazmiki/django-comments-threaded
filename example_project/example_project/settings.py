@@ -33,6 +33,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mptt',
+    'rest_framework',
     'django_comments_threaded',
     'generic_helpers',
     'posts',
