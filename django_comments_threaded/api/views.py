@@ -25,6 +25,10 @@ class CreateView(CommentMixin, CreateAPIView):
     pass
 
 
+class ReplyView(CommentMixin, CreateAPIView):
+    pass
+
+
 class ListView(CommentMixin, ListAPIView):
     def get_queryset(self):
         return Comment.objects.filter(**self.content_object_filter())
