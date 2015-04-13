@@ -12,7 +12,8 @@ release:
 
 
 flake8:
-	flake8 ${project_name} setup.py tests.py example_project/
+	flake8 ${project_name} setup.py tests.py example_project/ \
+		--exclude=*migrations/*
 
 
 coverage:
