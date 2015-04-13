@@ -51,12 +51,9 @@ class AbstractComment(AbstractCommentBase):
     is_spam = models.BooleanField(_('Marked as spam'),
                                   db_index=True,
                                   default=False)
-    remote_addr = models.IPAddressField(_('Remote ADDR'),
-                                        blank=True,
-                                        null=True)
-    forwarded_for = models.IPAddressField(_('Forwarded for'),
-                                          blank=True,
-                                          null=True)
+    remote_addr = models.GenericIPAddressField(_('Remote ADDR'),
+                                               blank=True,
+                                               null=True)
 
     class Meta(object):
         abstract = True

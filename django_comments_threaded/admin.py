@@ -11,7 +11,7 @@ from mptt.admin import MPTTModelAdmin
 
 class CommentAdmin(MPTTModelAdmin):
     list_display = ['is_active', '__str__',
-                    'is_spam', 'remote_addr', 'forwarded_for']
+                    'is_spam', 'remote_addr']
     raw_id_fields = ['user', 'parent']
 
 
