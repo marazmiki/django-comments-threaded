@@ -14,7 +14,7 @@ def expand_node(node, children_key='replies'):
     children = [expand_node(c) for c in node.get_children()]
 
     if children:
-        data.update(children_key=children)
+        data[children_key] = children
     return data
 
 
