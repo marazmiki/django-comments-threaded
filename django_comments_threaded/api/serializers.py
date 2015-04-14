@@ -30,9 +30,22 @@ class CommentSerializer(RequestMixin, ModelSerializer):
 
     class Meta(object):
         model = Comment
-        write_only_fields = ['message']
-        exclude = ['content_type', 'object_pk', 'is_active',
-                   'is_spam', 'is_moderated']
+        write_only_fields = []
+        exclude = ['content_type', 'object_pk', 'is_active', 'user',
+                   'is_spam', 'is_moderated', 'parent', 'remote_addr']
+
+
+class CommentReplySerializer(RequestMixin, ModelSerializer):
+    def create(self, validated_data):
+        parent = Comment.objects.get(pk=self.get_context_kwargs('pk'))
+        validated_data.update(
+            content_object=parent.content_object,
+            parent=parent
+        )
+        return Comment.objects.create(**validated_data)
+
+    class Meta(CommentSerializer.Meta):
+        pass
 
 
 class LastReadSerializer(ModelSerializer):
