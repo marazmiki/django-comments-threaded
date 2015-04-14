@@ -49,11 +49,11 @@ class TestTreeView(BaseTest):
     view_name = 'api_list_tree'
 
     def test_1(self):
-        resp = self.client.get(self.get_absolute_url())
-        import json
-        from django.core.serializers.json import DjangoJSONEncoder
-
-       #print(json.dumps(resp.data, indent=2, cls=DjangoJSONEncoder))
+        # resp = self.client.get(self.get_absolute_url())
+        pass
+        # import json
+        # from django.core.serializers.json import DjangoJSONEncoder
+        # print(json.dumps(resp.data, indent=2, cls=DjangoJSONEncoder))
 
 
 class TestCreateView(test.APITestCase):
@@ -72,4 +72,3 @@ class TestCreateView(test.APITestCase):
 
     def test_(self):
         print(self.client.post(self.get_absolute_url()))
-        

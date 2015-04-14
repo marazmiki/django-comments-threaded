@@ -7,6 +7,7 @@ from __future__ import division
 from mptt.templatetags.mptt_tags import cache_tree_children
 from django_comments_threaded.api.serializers import CommentSerializer
 
+
 def expand_node(node, children_key='replies'):
     result = CommentSerializer(node)
     data = result.data.copy()

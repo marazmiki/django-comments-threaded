@@ -24,6 +24,7 @@ def get_comment_api_urls(content_object, **kwargs):
         'tree': reverse('api_list_tree', kwargs=rev)
     }
 
+
 @register.assignment_tag
 def get_comment_list(content_object, **kwargs):
     return Comment.objects.get_for_object(content_object)
