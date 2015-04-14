@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.response import Response
 from django_comments_threaded.models import Comment
 from django_comments_threaded.api import serializers
@@ -24,8 +24,16 @@ class CommentMixin(object):
         return Comment.objects.filter(**self.content_object_filter())
 
 
-class ReplyView(CommentMixin, generics.CreateAPIView):
+class ReplyView(CommentMixin, generics.CreateAPIView,
+                generics.DestroyAPIView):
     serializer_class = serializers.CommentReplySerializer
+
+    def get_queryset(self):
+        return Comment.objects.all()
+
+    def delete(self, request, pk, *args, **kwargs):
+        self.get_object().soft_delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ListCreateView(CommentMixin, generics.ListCreateAPIView):

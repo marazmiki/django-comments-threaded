@@ -55,6 +55,10 @@ class AbstractComment(AbstractCommentBase):
                                                blank=True,
                                                null=True)
 
+    def soft_delete(self):
+        self.is_active = False
+        self.save(update_fields=['is_active'])
+
     class Meta(object):
         abstract = True
 
