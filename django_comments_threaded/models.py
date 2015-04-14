@@ -59,6 +59,12 @@ class AbstractComment(AbstractCommentBase):
         self.is_active = False
         self.save(update_fields=['is_active'])
 
+    def has_replies(self):
+        return self.count_replies() > 0
+
+    def count_replies(self):
+        return int((self.rght - self.lft) / 2)
+
     class Meta(object):
         abstract = True
 
