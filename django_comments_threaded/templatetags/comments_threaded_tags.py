@@ -20,8 +20,7 @@ def get_comment_api_urls(content_object, **kwargs):
         'object_pk': content_object.pk,
     }
     return {
-        'create': reverse('api_create', kwargs=rev),
-        'list': reverse('api_list_flat', kwargs=rev),
+        'list_create': reverse('api_list_create', kwargs=rev),
         'tree': reverse('api_list_tree', kwargs=rev)
     }
 
