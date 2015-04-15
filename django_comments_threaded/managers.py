@@ -14,4 +14,3 @@ class CommentQuerySet(QuerySet, TreeManager):
 
     def in_moderation(self):
         return self.filter(is_moderated=False)
-print("sdf")
