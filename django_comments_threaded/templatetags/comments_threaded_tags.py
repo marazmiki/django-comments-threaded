@@ -38,6 +38,6 @@ def get_comment_list(content_object, **kwargs):
 @register.assignment_tag(takes_context=True)
 def get_comment_form(context, content_object, **kwargs):
     request = context['request']
-    return CommentCreateForm(request.POST or None, 
+    return CommentCreateForm(request.POST or None,
                              request.FILES or None,
                              initial=r(content_object))
