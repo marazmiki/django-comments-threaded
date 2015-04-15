@@ -6,11 +6,24 @@ from __future__ import absolute_import
 from __future__ import division
 from django.views.generic.edit import CreateView
 from django.shortcuts import redirect
-from django_comments_threaded.utils import get_create_form, get_reply_form
 from django_comments_threaded.signals import comment_created, comment_replied
+from django_comments_threaded.utils import (get_create_form, get_reply_form, 
+                                            get_model)
 
 
-class CreateCommentView(CreateView):
+class CommentMixin(object):
+    def save_comment(self, comment):
+        if self.request.user.is_authenticated():
+            comment.user = self.request.user
+        comment.save()
+
+    def redirect(self, comment):
+        if hasattr(comment.content_object, 'get_absolute_url'):
+            return redirect(comment.content_object)
+        return redirect('/')
+
+
+class CreateCommentView(CommentMixin, CreateView):
     """
     Create new comment thread
     """
@@ -20,35 +33,34 @@ class CreateCommentView(CreateView):
     def form_valid(self, form):
         comment = form.save(commit=False)
 
-        if self.request.user.is_authenticated():
-            comment.user = self.request.user
+        self.save_comment(comment)
 
-        comment.save()
         comment_created.send(sender=comment.__class__,
                              comment=comment,
                              request=self.request)
 
-        if hasattr(comment.content_object, 'get_absolute_url'):
-            return redirect(comment.content_object)
-
-        return redirect('/')
+        return self.redirect(comment)
 
 
-class ReplyCommentView(CreateView):
+class ReplyCommentView(CommentMixin, CreateView):
     """
     Reply to existing comment (same thread)
     """
     form_class = get_reply_form()
     template_name = 'django_comments_threaded/comment_reply.html'
 
+    def get_queryset(self):
+        return get_model().objects.public()
+
     def form_valid(self, form):
         comment = form.save(commit=False)
         comment.parent = self.get_object()
-        comment.user = self.request.user
+        comment.content_object = comment.parent.content_object
+
+        self.save_comment(comment)
 
         comment_replied.send(sender=comment.__class__,
                              comment=comment,
                              parent=comment.parent,
                              request=self.request)
-
-        return redirect(comment.content_object)
+        return self.redirect(comment)
