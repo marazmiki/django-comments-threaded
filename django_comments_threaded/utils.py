@@ -15,7 +15,7 @@ def get_create_form():
     """
     Returns the new comment form class.
 
-    If the default `CreateCommentForm` does not satisfy your requirements,
+    If the default `CommentCreateForm` does not satisfy your requirements,
     you can specify own form with override `THREADED_COMMENTS_CREATE_FORM`
     attribute in your `settings.py`:
 
@@ -27,14 +27,14 @@ def get_create_form():
     :return: forms.ModelForm
     """
     return _ex('THREADED_COMMENTS_CREATE_FORM',
-               'django_comments_threaded.forms.CreateCommentForm')
+               'django_comments_threaded.forms.CommentCreateForm')
 
 
 def get_reply_form():
     """
     Returns the reply comment form class.
 
-    If the default `ReplyCommentForm` does not satisfy your requirements,
+    If the default `CommentReplyForm` does not satisfy your requirements,
     you can specify own form with override `THREADED_COMMENTS_REPLY_FORM`
     attribute in your `settings.py`:
 
@@ -46,7 +46,7 @@ def get_reply_form():
     :return: forms.ModelForm
     """
     return _ex('THREADED_COMMENTS_REPLY_FORM',
-               'django_comments_threaded.forms.ReplyCommentForm')
+               'django_comments_threaded.forms.CommentReplyForm')
 
 
 def get_model():
