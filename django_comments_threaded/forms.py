@@ -5,18 +5,26 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 from django import forms
-from django_comments_threaded.models import Comment
+from django_comments_threaded.utils import get_model
 
 
 class CommentCreateForm(forms.ModelForm):
     class Meta(object):
-        model = Comment
+        model = get_model()
         exclude = ['is_active', 'parent', 'user', 'is_spam',
                    'is_moderated', 'remote_addr']
         widgets = {
             'content_type': forms.HiddenInput(),
             'object_pk': forms.HiddenInput(),
         }
+
+
+class CommentReplyForm(forms.ModelForm):
+    class Meta(object):
+        model = get_model()
+        exclude = ['is_active', 'parent', 'user', 'is_spam',
+                   'is_moderated', 'remote_addr', 'object_pk',
+                   'content_type']
 
 #
 # class LoadNewCommentsForm(forms.Form):

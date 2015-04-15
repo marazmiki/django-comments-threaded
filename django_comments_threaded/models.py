@@ -7,20 +7,20 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils import six
 from generic_helpers.models import GenericRelationModel
+from django_comments_threaded.managers import CommentQuerySet
 from mptt.models import MPTTModel
-import mptt.fields
+from mptt.fields import TreeForeignKey
 
 
 @python_2_unicode_compatible
 class AbstractCommentBase(MPTTModel, GenericRelationModel):
     message = models.TextField(_('message'), default='')
-    date_created = models.DateTimeField(_('Created'),
-                                        default=now,
+    date_created = models.DateTimeField(_('Created'), default=now,
                                         editable=False)
-    parent = mptt.fields.TreeForeignKey('self', related_name='childs',
-                                        verbose_name=_('parent'),
-                                        blank=True,
-                                        null=True)
+    parent = TreeForeignKey('self', related_name='childs',
+                            verbose_name=_('parent'),
+                            blank=True,
+                            null=True)
 
     def __str__(self):
         return self.message[:30]
@@ -54,6 +54,7 @@ class AbstractComment(AbstractCommentBase):
     remote_addr = models.GenericIPAddressField(_('Remote ADDR'),
                                                blank=True,
                                                null=True)
+    objects = CommentQuerySet.as_manager()
 
     def soft_delete(self):
         self.is_active = False
@@ -67,6 +68,10 @@ class AbstractComment(AbstractCommentBase):
 
     class Meta(object):
         abstract = True
+        ordering = ['tree_id', 'lft']
+        index_together = [('content_type', 'object_pk')]
+        verbose_name = _('comment')
+        verbose_name_plural = _('comments')
 
 
 class Comment(AbstractComment):
@@ -75,6 +80,7 @@ class Comment(AbstractComment):
         index_together = [('content_type', 'object_pk')]
         verbose_name = _('comment')
         verbose_name_plural = _('comments')
+        app_label = 'django_comments_threaded'
 
 
 @python_2_unicode_compatible
@@ -89,9 +95,9 @@ class LastRead(GenericRelationModel):
                                      default=now)
 
     def __str__(self):
-        what = self.content_object
-        return six.text_type(_('{user} has read {what}'.format(user=self.user,
-                                                               what=what)))
+        return six.text_type(_('{user} has read {what}')).format(
+            user=self.user,
+            what=self.content_object)
 
     class Meta(object):
         unique_together = [('content_type', 'object_pk', 'user')]
