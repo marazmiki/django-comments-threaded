@@ -10,6 +10,7 @@ Contents:
 
    install
    usage
+   signals
    advanced
    changelog
 
