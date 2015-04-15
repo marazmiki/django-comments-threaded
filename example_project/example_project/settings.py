@@ -34,9 +34,12 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'mptt',
     'rest_framework',
-    'django_comments_threaded',
     'generic_helpers',
+    'django_comments_threaded',
+
+    # Project apps
     'posts',
+    'custom_comments'
 )
 
 MIDDLEWARE_CLASSES = (
