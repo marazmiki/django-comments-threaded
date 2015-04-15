@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
-from django import test
 from django.db import models
 from django.conf.urls import url, include
 from django.shortcuts import render
@@ -18,10 +17,6 @@ class Image(models.Model):
     pass
 
 
-class TempateTag(test.TestCase):
-    pass
-
-
 def index(request):
     cntx = {
     }
@@ -32,3 +27,11 @@ urlpatterns = [
     url(r'^$', index),
     url(r'^comments/', include('django_comments_threaded.urls')),
 ]
+
+
+# utils
+
+from django_comments_threaded.tests.utils import (TestGetModel)
+
+
+__all__ = ['TestGetModel']
