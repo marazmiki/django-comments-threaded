@@ -24,6 +24,8 @@ def create_comments_tree(content_object, num):
 
 
 class BaseTest(test.APITestCase):
+    view_name = ''
+
     def setUp(self):
         self.content_object = Post.objects.create()
         self.client = test.APIClient()
@@ -38,7 +40,7 @@ class BaseTest(test.APITestCase):
 
 
 class TestListView(BaseTest):
-    view_name = 'api_list_flat'
+    view_name = 'api_list_create'
 
     def test_simple(self):
         resp = self.client.get(self.get_absolute_url())
@@ -57,7 +59,7 @@ class TestTreeView(BaseTest):
 
 
 class TestCreateView(test.APITestCase):
-    view_name = 'api_create'
+    view_name = 'api_list_create'
 
     def setUp(self):
         self.content_object = Post.objects.create()
