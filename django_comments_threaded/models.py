@@ -17,7 +17,7 @@ class AbstractCommentBase(MPTTModel, GenericRelationModel):
     message = models.TextField(_('message'), default='')
     date_created = models.DateTimeField(_('Created'), default=now,
                                         editable=False)
-    parent = TreeForeignKey('self', related_name='childs',
+    parent = TreeForeignKey('self', related_name='replies',
                             verbose_name=_('parent'),
                             blank=True,
                             null=True)
@@ -47,7 +47,7 @@ class AbstractComment(AbstractCommentBase):
     is_active = models.BooleanField(_('Active'), db_index=True,
                                     default=True, blank=True)
     is_moderated = models.BooleanField(_('moderated'), blank=True,
-                                       default=False)
+                                       default=True)
     is_spam = models.BooleanField(_('Marked as spam'),
                                   db_index=True,
                                   default=False)
