@@ -18,6 +18,7 @@ settings.configure(
         'django.contrib.contenttypes',
         'django.contrib.sessions',
         'mptt',
+        'rest_framework',
         'django_comments_threaded',
         'django_comments_threaded.api',
     ),
