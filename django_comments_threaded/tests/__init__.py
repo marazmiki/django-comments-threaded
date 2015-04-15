@@ -45,8 +45,8 @@ class TestGetVersion(test.TestCase):
 # utils
 
 from django_comments_threaded.tests.managers import (
-    TestSpamManagerMethod,
-    TestInModerationManagerMethod
+    TestSpamManagerMethod, TestInModerationManagerMethod,
+    TestPublicManagerMethod
 )
 from django_comments_threaded.tests.utils import (TestGetModel,
                                                   TestGetCreateForm,
@@ -58,5 +58,6 @@ __all__ = [
     'TestGetVersion',
     'TestGetModel', 'TestGetCreateForm', 'TestGetReplyForm',
     'TestSpamManagerMethod', 'TestInModerationManagerMethod',
+    'TestPublicManagerMethod',
     'TestCommentCreateView', 'TestCommentReplyView',
 ]
