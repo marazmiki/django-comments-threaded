@@ -13,6 +13,7 @@ CHANGELOG
 * Added `tox <https://testrun.org/tox/latest/>`_ support
 * Added view to fetch unread comments (e.g. "update comments" feature)
 * Added RESTful API (powered by `django rest framework <http://www.django-rest-framework.org/>`_)
+* Added signals on successful and failed comment sending
 * Time of last read comment now don't save automatically in favor of client side tracking
 * Dropped Django 1.6x and older versions support
 * Increase test coverage
