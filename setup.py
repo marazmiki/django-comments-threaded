@@ -23,7 +23,7 @@ def get_long_description():
 CWD = os.path.dirname(__file__)
 VERSION = __import__('django_comments_threaded').get_version()
 REQUIREMENTS = [
-    'Django>=1.6',
+    'Django>=1.7',
     'django-mptt',
     'django-generic-helpers',
 ]
@@ -45,6 +45,7 @@ setup(name='django-comments-threaded',
       license='MIT license',
       classifiers=CLASSIFIERS,
       install_requires=REQUIREMENTS,
-      packages=find_packages(exclude=['test_project', 'test_project.*']),
+      packages=find_packages(exclude=['example_project', 'example_project.*']),
+      test_suite='tests.main',
       include_package_data=True,
       zip_safe=False)
