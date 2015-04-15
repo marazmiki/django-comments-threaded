@@ -75,7 +75,7 @@ class AbstractComment(AbstractCommentBase):
 
 
 class Comment(AbstractComment):
-   class Meta(AbstractComment.Meta):
+    class Meta(AbstractComment.Meta):
         pass
 
 

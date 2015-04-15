@@ -78,6 +78,5 @@ class TestCommentCreateView(test.TestCase):
         self.assertEqual('anonymous@example.com', comment.user_email)
 
 
-
 class TestCommentReplyView(test.TestCase):
     pass

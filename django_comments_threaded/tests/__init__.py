@@ -34,10 +34,7 @@ urlpatterns = [
 from django_comments_threaded import get_version
 
 # admin
-from django_comments_threaded import admin
-
-
-
+from django_comments_threaded import admin    # NOQA
 
 
 class TestGetVersion(test.TestCase):
