@@ -8,10 +8,22 @@
   </div>
 {% get_comment_api_urls object as api_urls %}
 
+{% get_comment_form object as create_form %}
+
+<div class="well">
+  {{ create_form }}
+</div>
+
 <pre>{{ api_urls }}</pre>
 <script>window.ctf = {
   create: "{{ api_urls.list_create }}",
   tree: "{{ api_urls.tree }}"
 }
+</script>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script>
+(function(){
+    
+})()
 </script>
 {% endblock posts_content %}
