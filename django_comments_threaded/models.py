@@ -75,12 +75,8 @@ class AbstractComment(AbstractCommentBase):
 
 
 class Comment(AbstractComment):
-    class Meta(object):
-        ordering = ['tree_id', 'lft']
-        index_together = [('content_type', 'object_pk')]
-        verbose_name = _('comment')
-        verbose_name_plural = _('comments')
-        app_label = 'django_comments_threaded'
+   class Meta(AbstractComment.Meta):
+        pass
 
 
 @python_2_unicode_compatible
