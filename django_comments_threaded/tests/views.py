@@ -134,7 +134,7 @@ class TestCommentReplyView(test.TestCase):
         })
 
         comment = self.parent.replies.get()
- 
+
         self.assertIsNone(comment.user)
         self.assertEqual(self.parent, comment.parent)
         self.assertEqual('Test comment', comment.message)
@@ -193,4 +193,3 @@ class TestCommentReplyView(test.TestCase):
                 'object_pk': self.post.pk,
             })
         comment_replied.disconnect(signal_handler, sender=Comment)
-

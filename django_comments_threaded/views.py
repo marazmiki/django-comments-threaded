@@ -7,7 +7,7 @@ from __future__ import division
 from django.views.generic.edit import CreateView
 from django.shortcuts import redirect
 from django_comments_threaded.signals import comment_created, comment_replied
-from django_comments_threaded.utils import (get_create_form, get_reply_form, 
+from django_comments_threaded.utils import (get_create_form, get_reply_form,
                                             get_model)
 
 
