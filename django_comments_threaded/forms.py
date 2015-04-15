@@ -11,7 +11,12 @@ from django_comments_threaded.models import Comment
 class CommentCreateForm(forms.ModelForm):
     class Meta(object):
         model = Comment
-        exclude = []
+        exclude = ['is_active', 'parent', 'user', 'is_spam',
+                   'is_moderated', 'remote_addr']
+        widgets = {
+            'content_type': forms.HiddenInput(),
+            'object_pk': forms.HiddenInput(),
+        }
 
 #
 # class LoadNewCommentsForm(forms.Form):
