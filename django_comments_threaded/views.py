@@ -15,15 +15,23 @@ class CreateCommentView(CreateView):
     Create new comment thread
     """
     form_class = get_create_form()
+    template_name = 'django_comments_threaded/comment_create.html'
 
     def form_valid(self, form):
         comment = form.save(commit=False)
-        comment.user = self.request.user
+
+        if self.request.user.is_authenticated():
+            comment.user = self.request.user
+
         comment.save()
         comment_created.send(sender=comment.__class__,
                              comment=comment,
                              request=self.request)
-        return redirect(comment.content_object)
+
+        if hasattr(comment.content_object, 'get_absolute_url'):
+            return redirect(comment.content_object)
+
+        return redirect('/')
 
 
 class ReplyCommentView(CreateView):
@@ -31,6 +39,7 @@ class ReplyCommentView(CreateView):
     Reply to existing comment (same thread)
     """
     form_class = get_reply_form()
+    template_name = 'django_comments_threaded/comment_reply.html'
 
     def form_valid(self, form):
         comment = form.save(commit=False)
