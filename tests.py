@@ -43,7 +43,7 @@ def main():
         django.setup()
 
     test_runner = get_runner(settings)(
-        verbosity=3,
+        verbosity=2,
         interactive=True,
         failfast=True
     )
