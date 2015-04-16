@@ -8,8 +8,5 @@ from django.db import models
 from django_comments_threaded.models import AbstractComment
 
 
-class Comment(AbstractComment):
+class CustomComment(AbstractComment):
     website = models.URLField('Site')
-
-    class Meta(AbstractComment.Meta):
-        app_label = 'django_comments_threaded'
