@@ -22,6 +22,10 @@ settings.configure(
         'django_comments_threaded',
         'django_comments_threaded.api',
     ),
+    MIGRATION_MODULES={
+        'django_comments_threaded': ('django_comments_threaded.'
+                                     'tests.migrations')
+    },
     MIDDLEWARE_CLASSES=(
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
