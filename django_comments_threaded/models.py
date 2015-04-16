@@ -1,5 +1,9 @@
 # coding: utf-8
 
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import absolute_import
+from __future__ import division
 from django.db import models
 from django.conf import settings
 from django.utils.timezone import now
@@ -23,7 +27,10 @@ class AbstractCommentBase(MPTTModel, GenericRelationModel):
                             null=True)
 
     def __str__(self):
-        return self.message[:30]
+        size = 30
+        if len(self.message) > size:
+            return self.message[:30] + '...'
+        return self.message
 
     @models.permalink
     def get_reply_url(self):

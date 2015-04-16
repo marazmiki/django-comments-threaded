@@ -5,27 +5,15 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 from django import test
-from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from generic_helpers.utils import ct
-from django_comments_threaded.tests import Post
+from django_comments_threaded.tests import Post, create_user
 from django_comments_threaded.utils import get_model
 from django_comments_threaded.signals import comment_created, comment_replied
 import urlparse
 
 
-User = get_user_model()
 Comment = get_model()
-
-
-def create_user(username='user', email='user@example.com', password='user'):
-    user = User.objects.create_user(username=username, email=email,
-                                    password=password)
-    user.credentials = {
-        'username': user.username,
-        'password': password
-    }
-    return user
 
 
 def signal_handler(**kwargs):

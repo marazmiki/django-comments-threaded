@@ -10,7 +10,7 @@ from generic_helpers.managers import GenericQuerySet
 
 class CommentQuerySet(GenericQuerySet, TreeManager):
     def public(self):
-        return self.filter(is_spam=False, is_moderated=True)
+        return self.filter(is_spam=False, is_moderated=True, is_active=True)
 
     def spam(self):
         return self.filter(is_spam=True)

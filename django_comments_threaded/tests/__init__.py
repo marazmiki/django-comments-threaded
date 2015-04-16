@@ -8,6 +8,10 @@ from django import test
 from django.db import models
 from django.conf.urls import url, include
 from django.shortcuts import render
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 class Post(models.Model):
@@ -16,6 +20,16 @@ class Post(models.Model):
 
 class Image(models.Model):
     pass
+
+
+def create_user(username='user', email='user@example.com', password='user'):
+    user = User.objects.create_user(username=username, email=email,
+                                    password=password)
+    user.credentials = {
+        'username': user.username,
+        'password': password
+    }
+    return user
 
 
 def index(request):
@@ -42,15 +56,24 @@ class TestGetVersion(test.TestCase):
         self.assertEqual('1.0.0', get_version())
 
 
-# utils
+# models
+from django_comments_threaded.tests.models import (
+    TestStrCommentMethod, TestGetReplyUrlCommentMethod,
+    TestSoftDeleteCommentMethod, TestHasRepliesCommentMethod,
+    TestCountRepliesCommentMethod, TestStrLastReadMethod
+)
 
+# managers
 from django_comments_threaded.tests.managers import (
     TestSpamManagerMethod, TestInModerationManagerMethod,
     TestPublicManagerMethod
 )
+
+# utils
 from django_comments_threaded.tests.utils import (TestGetModel,
                                                   TestGetCreateForm,
                                                   TestGetReplyForm)
+# views
 from django_comments_threaded.tests.views import (TestCommentCreateView,
                                                   TestCommentReplyView)
 
@@ -60,4 +83,7 @@ __all__ = [
     'TestSpamManagerMethod', 'TestInModerationManagerMethod',
     'TestPublicManagerMethod',
     'TestCommentCreateView', 'TestCommentReplyView',
+    'TestStrCommentMethod', 'TestGetReplyUrlCommentMethod',
+    'TestSoftDeleteCommentMethod', 'TestHasRepliesCommentMethod',
+    'TestCountRepliesCommentMethod', 'TestStrLastReadMethod',
 ]

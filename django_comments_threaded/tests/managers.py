@@ -34,6 +34,13 @@ class TestPublicManagerMethod(test.TestCase):
             Comment.objects.get_for_object(self.post).public().get()
         )
 
+    def test_public_is_active(self):
+        self.good.soft_delete()
+        self.assertNotIn(
+            self.good,
+            Comment.objects.get_for_object(self.post).public()
+        )
+
 
 class TestSpamManagerMethod(test.TestCase):
     def setUp(self):
