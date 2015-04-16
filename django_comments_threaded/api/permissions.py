@@ -18,10 +18,9 @@ class CanDeleteOwnComment(permissions.BasePermission):
         if self.grant_access(request.user):
             return True
 
-        if self.is_own_object(obj, request.user) and \
-                self.no_replies(obj) and \
-                self.recently(obj):
-            return True
+        if self.is_own_object(obj, request.user):
+            if self.no_replies(obj) and self.recently(obj):
+                return True
 
         return False
 

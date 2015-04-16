@@ -7,7 +7,6 @@ from __future__ import division
 from django import test
 from django.db import models
 from django.conf.urls import url, include
-from django.shortcuts import render
 from django.contrib.auth import get_user_model
 
 
@@ -32,14 +31,7 @@ def create_user(username='user', email='user@example.com', password='user'):
     return user
 
 
-def index(request):
-    cntx = {
-    }
-    return render(request, 'django_comments_threaded/tests/index.html', cntx)
-
-
 urlpatterns = [
-    url(r'^$', index),
     url(r'^comments/', include('django_comments_threaded.urls')),
 ]
 

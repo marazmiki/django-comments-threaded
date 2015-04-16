@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from django_comments_threaded.models import Comment
 from django_comments_threaded.api import serializers
 from django_comments_threaded.api.utils import to_tree
+from django_comments_threaded.api.permissions import CanDeleteOwnComment
 
 
 class CommentMixin(object):
@@ -27,11 +28,12 @@ class CommentMixin(object):
 class ReplyView(CommentMixin, generics.CreateAPIView,
                 generics.DestroyAPIView):
     serializer_class = serializers.CommentReplySerializer
+    permission_classes = [CanDeleteOwnComment]
 
     def get_queryset(self):
         return Comment.objects.all()
 
-    def delete(self, request, pk, *args, **kwargs):
+    def delete(self, request, *args, **kwargs):
         self.get_object().soft_delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 

@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, CharField
 from django_comments_threaded.models import Comment, LastRead
 
 
@@ -21,6 +21,8 @@ class RequestMixin(object):
 
 
 class CommentSerializer(RequestMixin, ModelSerializer):
+    message = CharField(required=True)
+
     def create(self, validated_data):
         validated_data.update(
             object_pk=self.get_context_kwargs('object_pk'),
@@ -30,12 +32,13 @@ class CommentSerializer(RequestMixin, ModelSerializer):
 
     class Meta(object):
         model = Comment
-        write_only_fields = []
         exclude = ['content_type', 'object_pk', 'is_active', 'user',
                    'is_spam', 'is_moderated', 'parent', 'remote_addr']
 
 
 class CommentReplySerializer(RequestMixin, ModelSerializer):
+    message = CharField(required=True)
+
     def create(self, validated_data):
         parent = Comment.objects.get(pk=self.get_context_kwargs('pk'))
         validated_data.update(
