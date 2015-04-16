@@ -31,10 +31,10 @@ django-comments-threaded
 Requirements
 ------------
 
-* Django 1.5 or higher;
+* Django 1.7 or higher;
 * The `django-mptt <https://pypi.python.org/pypi/django-mptt>`_ 0.7
 * The `django-generic-helpers <https://pypi.python.org/pypi/django-generic-helpers>`_ 0.4.2
-* `django-classy-tags <https://pypi.python.org/pypi/django-classy-tags>`_
+
 
 Installation
 ------------
