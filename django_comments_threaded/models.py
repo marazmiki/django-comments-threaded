@@ -48,7 +48,7 @@ class AbstractComment(AbstractCommentBase):
                                     default=True, blank=True)
     is_moderated = models.BooleanField(_('moderated'), blank=True,
                                        default=True)
-    is_spam = models.BooleanField(_('Marked as spam'),
+    is_spam = models.BooleanField(_('Marked as spam'), blank=True,
                                   db_index=True,
                                   default=False)
     remote_addr = models.GenericIPAddressField(_('Remote ADDR'),
