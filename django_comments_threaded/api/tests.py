@@ -9,6 +9,7 @@ from generic_helpers.managers import ct
 from rest_framework import test
 from django_comments_threaded.tests import Post, create_user
 from django_comments_threaded.utils import get_model
+from django_comments_threaded.api.permissions import CanDeleteOwnComment
 import datetime
 
 
@@ -124,7 +125,7 @@ class TestReplyView(test.APITestCase):
         self.client.logout()
         self.assertEqual(403, self.client.delete(self.url).status_code)
 
-    def test_delete_authenticated(self):
+    def test_delete_authenticated_no_owner(self):
         self.client.logout()
         self.client.login(**create_user(username='user_2').credentials)
         self.assertEqual(403, self.client.delete(self.url).status_code)
@@ -140,9 +141,15 @@ class TestReplyView(test.APITestCase):
         self.assertCommentDeleted(self.client.delete(self.url))
 
     def test_delete_failure_(self):
-        self.comment.date_created -= datetime.timedelta(days=1)
+        self.comment.date_created = datetime.date(2011, 2, 11)
         self.comment.save()
         self.user.is_superuser = False
         self.user.save()
-
         self.assertEqual(403, self.client.delete(self.url).status_code)
+
+    def test_delete_http_method_smoke_test(self):
+        class Request(object):
+            method = 'GET'
+
+        perm = CanDeleteOwnComment()
+        self.assertTrue(perm.has_object_permission(Request(), None, None))
