@@ -61,6 +61,11 @@ from django_comments_threaded.tests.managers import (
     TestPublicManagerMethod
 )
 
+# templatetags
+from django_comments_threaded.tests.templatetags import (
+    TestGetCommentApiUrlsTag, TestGetCommentListTag, TestGetCommentFormTag
+)
+
 # utils
 from django_comments_threaded.tests.utils import (TestGetModel,
                                                   TestGetCreateForm,
@@ -78,4 +83,6 @@ __all__ = [
     'TestStrCommentMethod', 'TestGetReplyUrlCommentMethod',
     'TestSoftDeleteCommentMethod', 'TestHasRepliesCommentMethod',
     'TestCountRepliesCommentMethod', 'TestStrLastReadMethod',
+    'TestGetCommentApiUrlsTag', 'TestGetCommentListTag',
+    'TestGetCommentFormTag',
 ]
