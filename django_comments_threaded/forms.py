@@ -8,58 +8,35 @@ from django import forms
 from django_comments_threaded.utils import get_model
 
 
+GR_EX = ['object_pk', 'content_type']
+USER_EX = ['user_name', 'user_email']
+COMMON_EX = ['is_active', 'parent', 'user', 'is_spam', 'is_moderated',
+             'remote_addr']
+
+WIDGETS = {
+    'content_type': forms.HiddenInput(),
+    'object_pk': forms.HiddenInput(),
+}
+
+
 class CommentCreateForm(forms.ModelForm):
     class Meta(object):
         model = get_model()
-        exclude = ['is_active', 'parent', 'user', 'is_spam',
-                   'is_moderated', 'remote_addr']
-        widgets = {
-            'content_type': forms.HiddenInput(),
-            'object_pk': forms.HiddenInput(),
-        }
+        exclude = COMMON_EX + USER_EX
+        widgets = WIDGETS
 
 
 class CommentReplyForm(forms.ModelForm):
     class Meta(object):
         model = get_model()
-        exclude = ['is_active', 'parent', 'user', 'is_spam',
-                   'is_moderated', 'remote_addr', 'object_pk',
-                   'content_type']
+        exclude = COMMON_EX + GR_EX + USER_EX
 
-#
-# class LoadNewCommentsForm(forms.Form):
-#     object_pk = forms.CharField(widget=forms.HiddenInput())
-#     content_type = forms.ModelChoiceField(queryset=ContentType.objects.all(),
-#                                           widget=forms.HiddenInput())
-#
-#     def get_content_object(self):
-#         assert self.is_valid(), "This method can be called " \
-#                                 "only for valid models"
-#         content_type = self.cleaned_data['content_type']
-#         object_pk = self.cleaned_data['object_pk']
-#         return content_type.get_object_for_this_type(pk=object_pk)
-#
-#
-# class CommentForm(forms.ModelForm):
-#     class Meta(object):
-#         model = Comment
-#         fields = ['message', 'content_type', 'object_pk']
-#         widgets = {'content_type': forms.HiddenInput(),
-#                    'object_pk': forms.HiddenInput()
-#                    }
-#
-#
-# class CommentReplyForm(forms.ModelForm):
-#     class Meta(object):
-#         model = Comment
-#         fields = ['message']
-#
-#
-# class AnonymousCommentForm(CommentForm):
-#     class Meta(CommentForm.Meta):
-#         fields = ['user_name', 'user_email'] + CommentForm.Meta.fields
-#
-#
-# class AnonymousReplyForm(CommentReplyForm):
-#     class Meta(CommentReplyForm.Meta):
-#         fields = ['user_name', 'user_email'] + CommentReplyForm.Meta.fields
+
+class AnonymousCommentCreateForm(CommentCreateForm):
+    class Meta(CommentCreateForm.Meta):
+        exclude = COMMON_EX
+
+
+class AnonymousCommentReplyForm(forms.ModelForm):
+    class Meta(CommentReplyForm.Meta):
+        exclude = COMMON_EX + GR_EX + USER_EX
