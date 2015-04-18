@@ -22,14 +22,14 @@ WIDGETS = {
 class CommentCreateForm(forms.ModelForm):
     class Meta(object):
         model = get_model()
-        exclude = COMMON_EX + USER_EX
+        exclude = COMMON_EX  # + USER_EX
         widgets = WIDGETS
 
 
 class CommentReplyForm(forms.ModelForm):
     class Meta(object):
         model = get_model()
-        exclude = COMMON_EX + GR_EX + USER_EX
+        exclude = COMMON_EX + GR_EX  # + USER_EX
 
 
 class AnonymousCommentCreateForm(CommentCreateForm):
