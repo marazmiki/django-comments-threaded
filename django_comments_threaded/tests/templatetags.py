@@ -54,8 +54,9 @@ class TestGetCommentFormTag(test.TestCase):
         form = t.get_comment_form({'request': self.req.get('/')}, self.post)
         print(form)
 
-    def test_post(self):                        
-        form = t.get_comment_form({'request': self.req.post('/', {})}, self.post)
+    def test_post(self):
+        form = t.get_comment_form({'request': self.req.post('/', {})},
+                                  self.post)
         print(form)
 
 # get_comment_api_urls(content_object, **kwargs):
