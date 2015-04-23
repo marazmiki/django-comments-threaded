@@ -5,6 +5,7 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 from rest_framework.serializers import ModelSerializer, CharField
+from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
 from django_comments_threaded.models import Comment, LastRead
 
 

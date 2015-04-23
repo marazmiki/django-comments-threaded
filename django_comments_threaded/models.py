@@ -45,7 +45,7 @@ class AbstractCommentBase(MPTTModel, GenericRelationModel):
 
 class AbstractComment(AbstractCommentBase):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             related_name='comments',
+                             # related_name='comments',
                              verbose_name=_('user'), null=True)
     user_name = models.CharField(_('user name'), max_length=255,
                                  default='')
@@ -104,4 +104,4 @@ class LastRead(GenericRelationModel):
 
     class Meta(object):
         unique_together = [('content_type', 'object_pk', 'user')]
-        app_label = 'django_comments_threaded'
+        # app_label = 'django_comments_threaded'

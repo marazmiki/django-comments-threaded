@@ -11,3 +11,6 @@ from django.utils.translation import ugettext_lazy as _
 class CommentsThreadedConfig(AppConfig):
     name = 'django_comments_threaded'
     verbose_name = _('comments')
+
+    def ready(self):
+        pass

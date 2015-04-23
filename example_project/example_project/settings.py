@@ -73,7 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'example_project.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
@@ -89,17 +88,14 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
-
 STATIC_URL = '/static/'
+
+# Customize the django-comments-threaded
+# THREADED_COMMENTS_MODEL = 'custom_comments.models.CustomComment'
+# THREADED_COMMENTS_CREATE_FORM = 'custom_comments.forms.CommentCreateForm'
+# THREADED_COMMENTS_REPLY_FORM = 'custom_comments.forms.CommentReplyForm'
