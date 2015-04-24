@@ -4,8 +4,8 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
-from rest_framework.serializers import ModelSerializer, CharField
-from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
+from rest_framework import serializers, parsers
+from django.db.models import permalink
 from django_comments_threaded.models import Comment, LastRead
 
 
@@ -21,8 +21,13 @@ class RequestMixin(object):
         return self.get_request()
 
 
-class CommentSerializer(RequestMixin, ModelSerializer):
-    message = CharField(required=True)
+class CommentSerializer(RequestMixin, serializers.ModelSerializer):
+    message = serializers.CharField(required=True)
+    comment_url = serializers.SerializerMethodField()
+
+    @permalink
+    def get_comment_url(self, comment):
+        return 'api_reply', [], {'pk': comment.pk}
 
     def create(self, validated_data):
         validated_data.update(
@@ -37,8 +42,13 @@ class CommentSerializer(RequestMixin, ModelSerializer):
                    'is_spam', 'is_moderated', 'parent', 'remote_addr']
 
 
-class CommentReplySerializer(RequestMixin, ModelSerializer):
-    message = CharField(required=True)
+class CommentReplySerializer(RequestMixin, serializers.ModelSerializer):
+    message = serializers.CharField(required=True)
+    comment_url = serializers.SerializerMethodField()
+
+    @permalink
+    def get_comment_url(self, comment):
+        return 'api_reply', [], {'pk': comment.pk}
 
     def create(self, validated_data):
         parent = Comment.objects.get(pk=self.get_context_kwargs('pk'))
@@ -52,6 +62,6 @@ class CommentReplySerializer(RequestMixin, ModelSerializer):
         pass
 
 
-class LastReadSerializer(ModelSerializer):
+class LastReadSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = LastRead

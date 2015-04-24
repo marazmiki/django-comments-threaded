@@ -3,90 +3,97 @@
 
 {% block posts_title %}{% endblock posts_title %}
 {% block posts_content %}
-<div ng-app="django-comments-threaded">
-  <div class="container" >
-    <h1>{{ object }}</h1>
-  </div>
-  {% get_comment_api_urls object as api_urls %}
-  {% get_comment_form object as create_form %}
+  <div ng-app="django-comments-threaded">
+    <div class="container" >
+      <h1>{{ object }}</h1>
+    </div>
+    {% get_comment_api_urls object as api_urls %}
+    {% get_comment_form object as create_form %}
 
-  <script type="text/ng-template" id="comment_item.html">
-    {$ comment.message $}
-    <ul>
+    <script type="text/ng-template" id="comment_item.html">
+      <p>{$ comment.author_name $}, <a href="#comment-{$ comment.id $}">{$ comment.date_created | date $}</a></p>
+      <div>{$ comment.message $}</div>
+      <p class="center">
+        [<a ng-click="reply(comment)">reply</a>]
+        [<a ng-click="delete(comment)">delete</a>]
+      </p>
+      <ul>
         <li ng-repeat="comment in comment.replies" ng-include="'comment_item.html'"></li>
-    </ul>
-  </script>
+      </ul>
+    </script>
 
-  <div ng-controller="CommentTreeCtrl">
-    {$ tree|json $}
-    <ul>
-      <li ng-repeat="comment in tree" ng-include="'comment_item.html'"></li>
-    </ul>
-  </div>
+    <div ng-controller="CommentTreeCtrl">
+      <ul>
+        <li ng-repeat="comment in tree" ng-include="'comment_item.html'"></li>
+      </ul>
+    </div>
 
-  <div class="well">
-    <form id="frm_comment_create" action="">
-      {{ create_form }}
-      <div class="">
-        <input type="submit" value="Send">
-      </div>
-    </form>
+    <div class="well">
+      <form id="frm_comment_create" action="">
+        {{ create_form }}
+        <div class="">
+          <input type="submit" value="Send">
+        </div>
+      </form>
+    </div>
+
+    <script>window.ctf = {
+      create: "{{ api_urls.list_create }}",
+      tree: "{{ api_urls.tree }}"
+    }
+    </script>
   </div>
-  <pre>{{ api_urls }}</pre>
-  <script>window.ctf = {
-    create: "{{ api_urls.list_create }}",
-    tree: "{{ api_urls.tree }}"
-  }
-  </script>
-</div>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-<script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+  <script>
 var
   deps = [],
   app = angular.module("django-comments-threaded", [])
 ;
 app
-  .config(["$interpolateProvider", function($ip){
-    $ip.startSymbol("{$");
-    $ip.endSymbol("$}");
+  .config(["$interpolateProvider", "$rootScopeProvider", function($interpolateProvider, $rootScopeProvider){
+    $interpolateProvider.startSymbol("{$");
+    $interpolateProvider.endSymbol("$}");
+    $rootScopeProvider.digestTtl(15);
+
   }])
-  .controller("CommentTreeCtrl", ["$scope", "$http", function($scope, $http){
+  .controller("CommentTreeCtrl", ["$scope", "$http", "$log", function($scope, $http, $log){
     $http
       .get(ctf.tree)
       .success(function(tree){
         $scope.tree = tree;
       });
+
+    $scope.delete = function(comment){
+      $http
+        .delete(comment.comment_url)
+        .success(function(json){
+          $log.info("Successfully deleted")
+        })
+        .error(function(json){
+          $log.info("Error during comment deletion", json)
+        })
+      ;
+    };
+
+    $scope.reply = function(comment){
+      $http
+        .post(comment.comment_url, {'message': 'sfsdfsdf'})
+        .success(function(json){
+          if (typeof comment.replies == "undefined") {
+            comment.replies = []
+          }
+          comment.replies.push(json);
+        })
+        .error(function(json){
+        })
+      ;
+    };
+
+  }])
+  .controller("CommentCreate", ["$scope", function($scope){
+
   }])
 ;
-
-//(function($, undefined){
-//  $(function(){
-//    $.getJSON(ctf.tree, function(json){
-//      console.log(json)
-//    });
-//  });
-//  $(document)
-//    .on('submit', '#frm_comment_create', function(e) {
-//      var data = {};
-//
-//      e.preventDefault();
-//      $.each($(this).serializeArray(), function(i, v){
-//        data[v.name] = v.value
-//      });
-//
-//      $.ajax({
-//        method: 'POST',
-//        url: ctf.create,
-//        contentType: "application/json",
-//        data: JSON.stringify(data),
-//        success: function(j){
-//          console.info(j);
-//          $('#id_message').val('');
-//        }
-//      });
-//      // return false;
-//  });
-//})(jQuery)
-</script>
+  </script>
 {% endblock posts_content %}
