@@ -7,8 +7,7 @@ from __future__ import division
 from django import template
 from django.core.urlresolvers import reverse
 from generic_helpers.managers import ct
-from django_comments_threaded.models import Comment
-from django_comments_threaded.forms import CommentCreateForm
+from django_comments_threaded.utils import get_create_form, get_model
 
 
 register = template.Library()
@@ -32,12 +31,12 @@ def get_comment_api_urls(content_object, **kwargs):
 
 @register.assignment_tag
 def get_comment_list(content_object, **kwargs):
-    return Comment.objects.get_for_object(content_object)
+    return get_model().objects.get_for_object(content_object)
 
 
 @register.assignment_tag(takes_context=True)
 def get_comment_form(context, content_object, **kwargs):
     request = context['request']
-    return CommentCreateForm(request.POST or None,
+    return get_create_form()(request.POST or None,
                              request.FILES or None,
                              initial=r(content_object))

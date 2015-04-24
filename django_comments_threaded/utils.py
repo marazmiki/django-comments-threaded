@@ -30,7 +30,7 @@ def get_create_form():
                'django_comments_threaded.forms.CommentCreateForm')
 
 
-def get_reply_form():
+def get_reply_form(request=None):
     """
     Returns the reply comment form class.
 
