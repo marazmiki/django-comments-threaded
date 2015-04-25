@@ -1,4 +1,5 @@
 {% extends 'posts/base.html' %}
+{% load i18n %}
 {% load comments_threaded_tags %}
 
 {% block posts_title %}{% endblock posts_title %}
@@ -14,10 +15,12 @@
       <p>{$ comment.author_name $}, <a href="#comment-{$ comment.id $}">{$ comment.date_created | date $}</a></p>
       <div>{$ comment.message $}</div>
       <p class="center">
-        [<a href="#" ng-click="reply(comment)">reply</a>]
-        <!--[<a ng-click="delete(comment)">delete</a>] -->
+        <a href="#" ng-click="reply(comment)">reply</a>
+        <a href="#" ng-click="delete(comment)" ng-show="0">delete</a>
       </p>
-      <p ng-if="comment.level >= maxLevel - 1 && (comment.rght-comment.lft > 1)"><a ng-href="#" ng-click="toggleThread(comment)">More {$ comment | threadSize $}</a></p>
+      <p ng-if="(comment.level >= maxLevel - 1) && (comment.rght-comment.lft > 1) && (openedThreads.indexOf(comment.tree_id) == -1)">
+        <a ng-href="#" ng-click="toggleThread(comment)">More {$ comment | threadSize $}</a>
+      </p>
       <ul ng-if="(comment.level <  maxLevel - 1) || openedThreads.indexOf(comment.tree_id) != -1 ">
         <li ng-repeat="comment in comment.replies" ng-include="'comment_item.html'"></li>
       </ul>
