@@ -14,15 +14,16 @@
       <p>{$ comment.author_name $}, <a href="#comment-{$ comment.id $}">{$ comment.date_created | date $}</a></p>
       <div>{$ comment.message $}</div>
       <p class="center">
-        [<a ng-click="reply(comment)">reply</a>]
-        [<a ng-click="delete(comment)">delete</a>]
+        [<a href="#" ng-click="reply(comment)">reply</a>]
+        <!--[<a ng-click="delete(comment)">delete</a>] -->
       </p>
-      <ul>
+      <p ng-if="comment.level >= maxLevel - 1 && (comment.rght-comment.lft > 1)"><a ng-href="#" ng-click="toggleThread(comment)">More {$ comment | threadSize $}</a></p>
+      <ul ng-if="(comment.level <  maxLevel - 1) || openedThreads.indexOf(comment.tree_id) != -1 ">
         <li ng-repeat="comment in comment.replies" ng-include="'comment_item.html'"></li>
       </ul>
     </script>
 
-    <div ng-controller="CommentTreeCtrl">
+    <div ng-controller="CommentTreeCtrl" ng-init="maxLevel=5">
       <ul>
         <li ng-repeat="comment in tree" ng-include="'comment_item.html'"></li>
       </ul>
@@ -57,6 +58,11 @@ app
     $rootScopeProvider.digestTtl(15);
 
   }])
+  .filter("threadSize", function(){
+    return function(comment) {
+      return parseInt((comment.rght - comment.lft) / 2);
+    };
+  })
   .controller("CommentTreeCtrl", ["$scope", "$http", "$log", function($scope, $http, $log){
     $http
       .get(ctf.tree)
@@ -64,6 +70,16 @@ app
         $scope.tree = tree;
       });
 
+    $scope.openedThreads = [];
+    $scope.toggleThread = function(comment){
+      $scope.openedThreads.push(comment.tree_id);
+    }
+    $scope.mainThread = function(comment, maxLevel){
+      return comment.level <= maxLevel - 1;
+    };
+    $scope.threadSize = function(comment){
+      return parseInt((comment.rght - comment.lft) / 2)
+    };
     $scope.delete = function(comment){
       $http
         .delete(comment.comment_url)
