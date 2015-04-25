@@ -38,6 +38,7 @@ class AbstractCommentBase(MPTTModel, GenericRelationModel):
 
     class MPTTMeta(object):
         parent_attr = 'parent'
+        tree_id_attr = 'thread_id'
 
     class Meta(object):
         abstract = True
@@ -75,7 +76,7 @@ class AbstractComment(AbstractCommentBase):
 
     class Meta(object):
         abstract = True
-        ordering = ['tree_id', 'lft']
+        ordering = ['thread_id', 'lft']
         index_together = [('content_type', 'object_pk')]
         verbose_name = _('comment')
         verbose_name_plural = _('comments')
