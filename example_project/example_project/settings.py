@@ -97,5 +97,5 @@ STATIC_URL = '/static/'
 
 # Customize the django-comments-threaded
 # THREADED_COMMENTS_MODEL = 'custom_comments.models.CustomComment'
-# THREADED_COMMENTS_CREATE_FORM = 'custom_comments.forms.CommentCreateForm'
+THREADED_COMMENTS_CREATE_FORM = 'custom_comments.forms.CommentCreateForm'
 # THREADED_COMMENTS_REPLY_FORM = 'custom_comments.forms.CommentReplyForm'
