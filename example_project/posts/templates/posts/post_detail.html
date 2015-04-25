@@ -32,7 +32,7 @@
       </ul>
     </div>
 
-    <form>
+    <form ng-controller="CommentCreateCtrl" name="createForm" ng-submit="create()">
       {% for f in create_form.hidden_fields %}{{ f }}{% endfor %}
       {% for f in create_form.visible_fields %}
         <div class="form-group">
@@ -112,8 +112,18 @@ app
     };
 
   }])
-  .controller("CommentCreate", ["$scope", function($scope){
-
+  .controller("CommentCreateCtrl", ["$scope", "$http", function($scope, $http){
+    $scope.create = function(){
+      $http
+        .post(ctf.create, $scope.createForm)
+        .success(function(json){
+          console.log('success', json);
+        })
+        .error(function(json){
+          console.log('error', json);
+        })
+      ;
+    }
   }])
 ;
   </script>
