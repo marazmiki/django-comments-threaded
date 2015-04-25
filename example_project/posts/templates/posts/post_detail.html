@@ -32,14 +32,16 @@
       </ul>
     </div>
 
-    <div class="well">
-      <form id="frm_comment_create" action="">
-        {{ create_form }}
-        <div class="">
-          <input type="submit" value="Send">
+    <form>
+      {% for f in create_form.hidden_fields %}{{ f }}{% endfor %}
+      {% for f in create_form.visible_fields %}
+        <div class="form-group">
+          {{ f.label_tag }}
+          {{ f }} {# class="form-control" #}
         </div>
-      </form>
-    </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
 
     <script>window.ctf = {
       create: "{{ api_urls.list_create }}",
