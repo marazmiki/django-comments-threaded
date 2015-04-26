@@ -4,51 +4,124 @@
 
 {% block posts_title %}{% endblock posts_title %}
 {% block posts_content %}
+  <style scoped>
+    ul.list-unstyled.comment-tree>li {
+      margin-left: 0px;
+    }
+    ul.list-unstyled.comment-tree li {
+      margin-left: 28px;
+    }
+
+    div.comment {
+      position: relative;
+    }
+
+    div.b-comment__head {
+    }
+
+    div.b-comment__head a.b-comment__user img {
+      position: absolute;
+    }
+
+    div.b-comment__text,
+    div.b-comment__foot,
+    div.b-comment__head a.b-comment__user > span {
+      padding-left: 67px;
+    }
+
+    div.b-comment__text {
+      padding-right: 40px;
+    }
+
+    div.b-comment__head a.b-comment__user>img,
+    div.b-comment__head a.b-comment__user > span {
+      position: absolute;
+    }
+    div.b-comment__head a.b-comment__user > span {
+      font-weight: bold;
+    }
+
+    div.b-comment__head div.b-comment__datetime {
+      position: relative;
+    }
+
+    div.b-comment__rating {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 2px 4px;
+    }
+    div.rating {
+      color: #666;
+      background-color:#e7e7e7;
+    }
+
+
+  </style>
   <div ng-app="django-comments-threaded">
     <div class="container" >
       <h1>{{ object }}</h1>
-    </div>
-    {% get_comment_api_urls object as api_urls %}
-    {% get_comment_form object as create_form %}
+        {% get_comment_api_urls object as api_urls %}
+        {% get_comment_form object as create_form %}
 
-    <script type="text/ng-template" id="comment_item.html">
-      <p>{$ comment.author_name $}, <a href="#comment-{$ comment.id $}">{$ comment.date_created | date $}</a></p>
-      <div>{$ comment.message $}</div>
-      <p class="center">
-        <a href="#" ng-click="reply(comment)">reply</a>
-        <a href="#" ng-click="delete(comment)" ng-show="0">delete</a>
-      </p>
-      <p ng-if="(comment.level >= maxLevel - 1) && (comment.rght-comment.lft > 1) && (openedThreads.indexOf(comment.tree_id) == -1)">
-        <a ng-href="#" ng-click="toggleThread(comment)">More {$ comment | threadSize $}</a>
-      </p>
-      <ul ng-if="(comment.level <  maxLevel - 1) || openedThreads.indexOf(comment.tree_id) != -1 ">
-        <li ng-repeat="comment in comment.replies" ng-include="'comment_item.html'"></li>
-      </ul>
-    </script>
+        <script type="text/ng-template" id="comment_item.html">
+          <div class="comment" id="comment-{$ comment.id $}">
+            <a name="comment-{$ comment.id $}"></a>
+            <div class="b-comment__head">
+              <a href="#" class="b-comment__user">
+                <span>{$ comment.user_name $}</span>
+                <img src="http://static42.siliconrus.cmtt.ru/user-userpic/7c/9b/cc4c801876.jpg">
+              </a>
+              <div class="b-comment__datetime">
+                <a href="#comment-{$ comment.id $}">
+                  <time class="timeago" datetime="{$ comment.date_created $}" title="{$ comment.date_created | date $}">{$ comment.date_created | date $}</time>
+                </a>
+              </div>
+            </div>
+            <div class="b-comment__text">
+              {$ comment.message $}
+              <div class="media"></div>
+            </div>
+            <div class="b-comment__rating rating b-comment__rating ">
+              <div class="b-comment__rating__count rating-count">0</div>
+            </div>
+          </div>
+          <div class="b-comment__foot">
+            <a href="#" ng-click="reply(comment)">reply</a>
+            <a href="#" ng-click="delete(comment)" ng-show="0">delete</a>
+          </div>
+          <div ng-if=""></div>
+          <p ng-if="(comment.level >= maxLevel - 1) && (comment.rght-comment.lft > 1) && (openedThreads.indexOf(comment.tree_id) == -1)">
+            <a ng-href="#" ng-click="toggleThread(comment)">More {$ comment | threadSize $}</a>
+          </p>
+          <ul ng-if="(comment.level <  maxLevel - 1) || openedThreads.indexOf(comment.tree_id) != -1 " class="list-unstyled comment-tree">
+            <li ng-repeat="comment in comment.replies" ng-include="'comment_item.html'"></li>
+          </ul>
+        </script>
 
-    <div ng-controller="CommentTreeCtrl" ng-init="maxLevel=5">
-      <ul>
-        <li ng-repeat="comment in tree" ng-include="'comment_item.html'"></li>
-      </ul>
-    </div>
-
-    <form ng-controller="CommentCreateCtrl" name="createForm" ng-submit="create()">
-      {% for f in create_form.hidden_fields %}{{ f }}{% endfor %}
-      {% for f in create_form.visible_fields %}
-        <div class="form-group">
-          {{ f.label_tag }}
-          {{ f }} {# class="form-control" #}
+        <div ng-controller="CommentTreeCtrl" ng-init="maxLevel=5">
+          <ul class="list-unstyled" class="comment-tree">
+            <li ng-repeat="comment in tree" ng-include="'comment_item.html'"></li>
+          </ul>
+          <form ng-controller="CommentCreateCtrl" name="createForm" ng-submit="create()">
+            {% for f in create_form.hidden_fields %}{{ f }}{% endfor %}
+            {% for f in create_form.visible_fields %}
+              <div class="form-group">
+                {# {{ f.label_tag }} #}
+                {{ f }}
+              </div>
+            {% endfor %}
+            <button ng-disabled="isSubmitting || (createForm.$valid && createForm.$dirty)" type="submit" class="btn btn-default">{% trans 'create comment' %}</button>
+          </form>
         </div>
-      {% endfor %}
-      <button type="submit" class="btn btn-default">Submit</button>
-    </form>
-
-    <script>window.ctf = {
-      create: "{{ api_urls.list_create }}",
-      tree: "{{ api_urls.tree }}"
-    }
-    </script>
+      </div>
+    </div>
   </div>
+  <script>window.ctf = {
+    create: "{{ api_urls.list_create }}",
+    tree: "{{ api_urls.tree }}"
+  }
+  </script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
   <script>
@@ -113,14 +186,21 @@ app
 
   }])
   .controller("CommentCreateCtrl", ["$scope", "$http", function($scope, $http){
+    $scope.newComment = {};
+    $scope.isSubmitting = false;
+
     $scope.create = function(){
+      $scope.isSubmitting = true;
       $http
-        .post(ctf.create, $scope.createForm)
+        .post(ctf.create, $scope.newComment)
         .success(function(json){
-          console.log('success', json);
+          $scope.isSubmitting = false;
+          $scope.new_comment = {};
+          $scope.$parent.tree.push(json);
         })
         .error(function(json){
           console.log('error', json);
+          $scope.isSubmitting = false;
         })
       ;
     }
