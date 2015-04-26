@@ -25,13 +25,16 @@ class CommentMixin(object):
         return Comment.objects.filter(**self.content_object_filter())
 
 
-class ReplyView(CommentMixin, generics.CreateAPIView,
+class ReplyView(CommentMixin, generics.ListCreateAPIView,
                 generics.DestroyAPIView):
     serializer_class = serializers.CommentReplySerializer
     permission_classes = [CanDeleteOwnComment]
 
     def get_queryset(self):
         return Comment.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        return Response(to_tree(self.get_object().get_descendants(include_self=True))[0])
 
     def delete(self, request, *args, **kwargs):
         self.get_object().soft_delete()
