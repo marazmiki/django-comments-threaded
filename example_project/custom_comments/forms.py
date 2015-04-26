@@ -9,7 +9,20 @@ from django.utils.translation import ugettext_lazy as _
 from django_comments_threaded import forms as dct
 
 
-class CommentCreateForm(dct.CommentCreateForm):
+class Ng(object):
+    namespace = 'newComment'
+
+    def __init__(self, *args, **kwargs):
+        super(Ng, self).__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            if field.required:
+                field.widget.attrs['required'] = 'required'
+            field.widget.attrs['ng-model'] = '{namespace}.{name}'.format(
+                namespace=self.namespace,
+                name=name,
+            )
+
+class CommentCreateForm(Ng, dct.CommentCreateForm):
     class Meta(dct.CommentCreateForm.Meta):
         widgets = dct.CommentCreateForm.Meta.widgets
         widgets.update(
