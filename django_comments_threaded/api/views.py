@@ -34,7 +34,8 @@ class ReplyView(CommentMixin, generics.ListCreateAPIView,
         return Comment.objects.all()
 
     def list(self, request, *args, **kwargs):
-        return Response(to_tree(self.get_object().get_descendants(include_self=True))[0])
+        subtree = self.get_object().get_descendants(include_self=True)
+        return Response(to_tree(subtree)[0])
 
     def delete(self, request, *args, **kwargs):
         self.get_object().soft_delete()
