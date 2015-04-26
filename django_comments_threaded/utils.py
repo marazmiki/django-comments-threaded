@@ -4,8 +4,12 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
-from django.utils.module_loading import import_by_path
 from django.conf import settings
+
+try:
+    from django.utils.module_loading import import_string as import_by_path
+except ImportError:
+    from django.utils.module_loading import import_by_path
 
 
 __all__ = ['get_create_form', 'get_reply_form', 'get_model']
