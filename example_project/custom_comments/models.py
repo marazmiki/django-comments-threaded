@@ -27,8 +27,8 @@ class CustomComment(AbstractComment):
                                   (DEVICE_ANDROID, _('android')),
                                   (DEVICE_MOBILE, _('mobile')),
                                   (DEVICE_APPLE, _('apple')),
-                              ))
-                          
+                                  ))
+
 
 def typograph(**kwargs):
     comment = kwargs['instance']
