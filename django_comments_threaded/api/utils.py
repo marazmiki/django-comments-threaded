@@ -19,4 +19,5 @@ def expand_node(node, children_key='replies'):
 
 
 def to_tree(queryset):
-    return [expand_node(n) for n in cache_tree_children(queryset)]
+    queryset = queryset.order_by('thread_id', 'lft')
+    return [expand_node(n) for n in cache_tree_children(queryset,)]
