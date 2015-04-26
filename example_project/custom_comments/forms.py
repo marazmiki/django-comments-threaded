@@ -22,6 +22,7 @@ class Ng(object):
                 name=name,
             )
 
+
 class CommentCreateForm(Ng, dct.CommentCreateForm):
     class Meta(dct.CommentCreateForm.Meta):
         widgets = dct.CommentCreateForm.Meta.widgets
