@@ -39,7 +39,7 @@ class CommentSerializer(RequestMixin, serializers.ModelSerializer):
     class Meta(object):
         model = Comment
         exclude = ['content_type', 'object_pk', 'is_active', 'user',
-                   'is_spam', 'is_moderated', 'parent', 'remote_addr']
+                   'is_spam', 'is_moderated', 'remote_addr']
 
 
 class CommentReplySerializer(RequestMixin, serializers.ModelSerializer):
