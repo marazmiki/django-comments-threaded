@@ -7,13 +7,17 @@ from __future__ import division
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django_comments_threaded.models import AbstractComment
-from six.moves.urllib import request, parse, error
+import requests
+import requests.exceptions
 
 
 TYPOGRAPH_URL = 'http://www.typograf.ru/webservice/'
 
 
 class CustomComment(AbstractComment):
+    """
+    Customized threaded comments model
+    """
     DEVICE_DESKTOP = 'desktop'
     DEVICE_MOBILE = 'mobile'
     DEVICE_ANDROID = 'android'
@@ -32,12 +36,13 @@ class CustomComment(AbstractComment):
 
 def typograph(**kwargs):
     comment = kwargs['instance']
-    params = parse.urlencode({'text': comment.message})
-
     try:
-        with request.urlopen(TYPOGRAPH_URL, params) as fp:
-            comment.message = fp.read()
-    except (error.URLError, ):
+        comment.message = requests.post(TYPOGRAPH_URL, {
+            'text': comment.message,
+            'chr': 'UTF-8'
+        }).content.decode('utf-8')
+    except Exception as e:
+        print(e, type(e))
         pass
 
 
