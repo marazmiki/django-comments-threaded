@@ -49,6 +49,7 @@ app
         $scope.tree = tree;
       });
 
+    $scope.replyingTo = null;
     $scope.openedThreads = [];
     $scope.toggleThread = function(comment){
       $scope.openedThreads.push(comment.tree_id);
@@ -81,20 +82,28 @@ app
              ($scope.openedThreads.indexOf(comment.thread_id) != -1);
     }
 
-    $scope.reply = function(comment){
+    $scope.isReplying = function(comment){
+      return $scope.replyingTo == comment.id
+    }
+
+    $scope.toggleReplyForm = function(comment){
+      $scope.replyingTo = $scope.isReplying(comment) ? null : comment.id;
+    }
+
+    $scope.reply = function(comment, newComment){
       $http
-        .post(comment.comment_url, {'message': 'sfsdfsdf'})
+        .post(comment.comment_url, newComment)
         .success(function(json){
           if (typeof comment.replies == "undefined") {
             comment.replies = []
           }
           comment.replies.push(json);
+          $scope.replyingTo = null;
         })
         .error(function(json){
         })
       ;
     };
-
   }])
   .controller("CommentCreateCtrl", ["$scope", "$http", function($scope, $http){
     $scope.newComment = {};

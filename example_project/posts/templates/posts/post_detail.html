@@ -24,10 +24,10 @@
                 <span>{$ comment.user_name $}</span>
                 <img ng-src="http://dev.evuez.net/dev/identicons/?s={$ comment.user_name $}" width="48" height="48" class="b-comment__avatar">
               </a>
-                <a class="b-comment__datetime" href="#comment-{$ comment.id $}">
-                  <time class="timeago" datetime="{$ comment.date_created $}" title="{$ comment.date_created | date $}">{$ comment.date_created | date $}</time>
-                </a>
-                <span ng-show="comment.parent">&uarr;</a>
+              <a class="b-comment__datetime" href="#comment-{$ comment.id $}">
+                <time class="timeago" datetime="{$ comment.date_created $}" title="{$ comment.date_created | date $}">{$ comment.date_created | date $}</time>
+              </a>
+              <span ng-show="comment.parent">&uarr;</span>
               <div class="b-comment__rating rating b-comment__rating ">
                 <div class="b-comment__rating__count rating-count">{$ comment.rating || "0" $}</div>
               </div>
@@ -35,9 +35,20 @@
             <div class="b-comment__body" ng-bind-html="comment.message | nl2br"></div>
           </div>
           <div class="b-comment__foot">
-            <a href="#" ng-click="reply(comment)">reply</a>
-            <a href="#" ng-click="delete(comment)" ng-show="0">delete</a>
+            <a href="#" ng-click="toggleReplyForm(comment)">{% trans 'reply' %}</a>
+            <a href="#" ng-click="delete(comment)" ng-show="0">{% trans 'delete' %}</a>
           </div>
+
+          <form name="replyForm" ng-submit="reply(comment, newComment)" ng-if="isReplying(comment)">
+            {% for f in create_form.hidden_fields %}{{ f }}{% endfor %}
+            {% for f in create_form.visible_fields %}
+              <div class="form-group">
+                {{ f }}
+              </div>
+            {% endfor %}
+            <button ng-disabled="isSubmitting || (createForm.$valid && createForm.$dirty)" type="submit" class="btn btn-primary">{% trans 'create comment' %}</button>
+          </form>
+
           <p ng-if="isShowMore(comment)">
             <a ng-href="#" ng-click="toggleThread(comment)">More {$ comment | threadSize $}</a>
           </p>
