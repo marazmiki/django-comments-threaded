@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
-from django.db.models.manager import Manager
 from django.contrib.contenttypes.models import ContentType
 from mptt.managers import TreeManager
 from mptt.querysets import TreeQuerySet
@@ -22,7 +21,7 @@ class CommentQuerySet(TreeQuerySet):
     """
     gr_field = 'content_object'
     ct_field = 'content_type'
-    fk_field = 'object_pk' 
+    fk_field = 'object_pk'
 
     def _filter_or_exclude(self, negate, *args, **kwargs):
         if self.gr_field in kwargs:
@@ -74,7 +73,7 @@ class CommentManager(TreeManager):
                                           is_active=True)
 
     def spam(self):
-        return self.filter(is_spam=True)
+        return self.get_queryset().filter(is_spam=True)
 
     def in_moderation(self):
-        return self.filter(is_moderated=False)
+        return self.get_queryset().filter(is_moderated=False)
