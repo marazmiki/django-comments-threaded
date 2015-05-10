@@ -64,7 +64,7 @@
           </ul>
 
           {# Form #}
-          <form ng-controller="CommentCreateCtrl" name="createForm" ng-submit="create()">
+          <form ng-hide="replyingTo" ng-controller="CommentCreateCtrl" name="createForm" ng-submit="create()">
             {% for f in create_form.hidden_fields %}{{ f }}{% endfor %}
             {% for f in create_form.visible_fields %}
               <div class="form-group">
