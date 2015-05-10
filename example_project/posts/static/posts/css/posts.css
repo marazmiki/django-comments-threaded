@@ -3,7 +3,7 @@ li ul.b-comment__replies {
 }
 
 div.b-comment__item {
-  border: #ccc 1px dashed;
+  border: #ccc 0px dashed;
   position: relative;
 }
 
