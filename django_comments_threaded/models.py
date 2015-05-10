@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils import six
 from generic_helpers.models import GenericRelationModel
-from django_comments_threaded.managers import CommentQuerySet
+from django_comments_threaded.managers import CommentManager
 from mptt.models import MPTTModel
 from mptt.fields import TreeForeignKey
 
@@ -62,7 +62,7 @@ class AbstractComment(AbstractCommentBase):
     remote_addr = models.GenericIPAddressField(_('Remote ADDR'),
                                                blank=True,
                                                null=True)
-    objects = CommentQuerySet.as_manager()
+    objects = CommentManager()
 
     def soft_delete(self):
         self.is_active = False
