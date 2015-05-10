@@ -6,7 +6,7 @@ from __future__ import absolute_import
 from __future__ import division
 from rest_framework import generics, status
 from rest_framework.response import Response
-from django_comments_threaded.models import Comment
+from django_comments_threaded.utils import get_model
 from django_comments_threaded.api import serializers
 from django_comments_threaded.api.utils import to_tree
 from django_comments_threaded.api.permissions import CanDeleteOwnComment
@@ -22,7 +22,7 @@ class CommentMixin(object):
         }
 
     def get_queryset(self):
-        return Comment.objects.filter(**self.content_object_filter())
+        return get_model().objects.filter(**self.content_object_filter())
 
 
 class ReplyView(CommentMixin, generics.ListCreateAPIView,
@@ -31,7 +31,7 @@ class ReplyView(CommentMixin, generics.ListCreateAPIView,
     permission_classes = [CanDeleteOwnComment]
 
     def get_queryset(self):
-        return Comment.objects.all()
+        return get_model().objects.all()
 
     def list(self, request, *args, **kwargs):
         subtree = self.get_object().get_descendants(include_self=True)

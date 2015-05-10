@@ -6,7 +6,8 @@ from __future__ import absolute_import
 from __future__ import division
 from rest_framework import serializers
 from django.db.models import permalink
-from django_comments_threaded.models import Comment, LastRead
+from django_comments_threaded.models import LastRead
+from django_comments_threaded.utils import get_model
 
 
 class RequestMixin(object):
@@ -34,10 +35,10 @@ class CommentSerializer(RequestMixin, serializers.ModelSerializer):
             object_pk=self.get_context_kwargs('object_pk'),
             content_type_id=self.get_context_kwargs('content_type'),
         )
-        return Comment.objects.create(**validated_data)
+        return get_model().objects.create(**validated_data)
 
     class Meta(object):
-        model = Comment
+        model = get_model()
         exclude = ['content_type', 'object_pk', 'is_active', 'user',
                    'is_spam', 'is_moderated', 'remote_addr']
 
@@ -51,12 +52,12 @@ class CommentReplySerializer(RequestMixin, serializers.ModelSerializer):
         return 'api_reply', [], {'pk': comment.pk}
 
     def create(self, validated_data):
-        parent = Comment.objects.get(pk=self.get_context_kwargs('pk'))
+        parent = get_model().objects.get(pk=self.get_context_kwargs('pk'))
         validated_data.update(
             content_object=parent.content_object,
             parent=parent
         )
-        return Comment.objects.create(**validated_data)
+        return get_model().objects.create(**validated_data)
 
     class Meta(CommentSerializer.Meta):
         pass
