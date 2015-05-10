@@ -6,6 +6,7 @@
 {% block css %}
   {{ block.super }}
   <link rel="stylesheet" href="{% static 'posts/css/posts.css' %}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">  
 {% endblock css %}
 
 {% block posts_title %}{% endblock posts_title %}
@@ -28,6 +29,9 @@
                 <time class="timeago" datetime="{$ comment.date_created $}" title="{$ comment.date_created | date $}">{$ comment.date_created | date $}</time>
               </a>
               <span ng-show="comment.parent">&uarr;</span>
+              <i class="fa fa-apple" ng-show="comment.device == 'apple' "></i>
+              <i class="fa fa-android" ng-show="comment.device == 'android' "></i>
+              <i class="fa fa-mobile" ng-show="comment.device == 'mobile' "></i>
               <div class="b-comment__rating rating b-comment__rating ">
                 <div class="b-comment__rating__count rating-count">{$ comment.rating || "0" $}</div>
               </div>
@@ -46,7 +50,7 @@
                 {{ f }}
               </div>
             {% endfor %}
-            <button ng-disabled="isSubmitting || (createForm.$valid && createForm.$dirty)" type="submit" class="btn btn-primary">{% trans 'create comment' %}</button>
+            <button type="submit" class="btn btn-primary">{% trans 'send reply' %}</button>
           </form>
 
           <p ng-if="isShowMore(comment)">
@@ -71,7 +75,7 @@
                 {{ f }}
               </div>
             {% endfor %}
-            <button ng-disabled="isSubmitting || (createForm.$valid && createForm.$dirty)" type="submit" class="btn btn-primary">{% trans 'create comment' %}</button>
+            <button type="submit" class="btn btn-primary">{% trans 'create comment' %}</button>
           </form>
         </div>
       </div>
