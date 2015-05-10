@@ -25,6 +25,7 @@ class Ng(object):
 
 class CommentCreateForm(Ng, dct.CommentCreateForm):
     class Meta(dct.CommentCreateForm.Meta):
+        fields = ['message', 'user_name', 'user_email', 'website']
         widgets = dct.CommentCreateForm.Meta.widgets
         widgets.update(
             message=forms.Textarea(attrs={
@@ -40,6 +41,11 @@ class CommentCreateForm(Ng, dct.CommentCreateForm):
                 'class': 'form-control',
                 'placeholder': _('Your e-mail'),
             }),
+            website=forms.URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': _('Your website'),
+            }),
+
         )
 
 
