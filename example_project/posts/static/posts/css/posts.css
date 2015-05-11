@@ -27,7 +27,8 @@ div.b-comment__head .b-comment__avatar {
 }
 
 ul.b-comment__tree form {
-  margin-left: 20px;
+  margin-left: 80px;
+  margin-bottom: 40px;
 }
 
 /* Rating */
